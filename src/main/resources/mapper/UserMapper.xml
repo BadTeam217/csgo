@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sc.dao.UserDao">
+
+	<insert id="insertObject" parameterType="com.sc.pojo.User"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into user
+		(name,password,account)
+		values
+		(#{name},#{password},#{account})
+	</insert>
+
+	<update id="updateObjectById" parameterType="com.sc.pojo.User">
+		update user
+		set
+		name=#{name},
+		password=#{password},
+		where id=#{id}
+	</update>
+
+</mapper>
