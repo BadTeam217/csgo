@@ -15,9 +15,9 @@ public class UserDaoTests {
 	@Test
 	public void testInsert() {
 		User user = new User();
-		user.setAccount("21704");
-		user.setName("欧金金");
-		user.setPassword(new BCryptPasswordEncoder().encode("21704"));
+		user.setAccount("21703");
+		user.setName("火红红");
+		user.setPassword(new BCryptPasswordEncoder().encode("21703"));
 		int result = userDao.insertObject(user);
 		System.out.println(result);
 	}

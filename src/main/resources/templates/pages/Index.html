@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 
 	<div>
 		<div>用户:</div>
 		<div id="userId">
-			<span th:text="${session.USER.name}"
-				th:attr="data-id=${session.USER.id}"></span>
+			<span th:text="${session.USER.name}" th:attr="data-id=${session.USER.id}"></span>
 		</div>
 	</div>
 	<hr>
@@ -18,4 +19,5 @@
 	<hr>
 	<a id="load-doLog-id" href="logout">logout</a>
 </body>
+
 </html>
