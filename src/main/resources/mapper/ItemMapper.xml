@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sc.dao.ItemDao">
+
+    <resultMap id="itemMap" type="item">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="skin" property="skin"/>
+        <result column="quality" property="quality"/>
+    </resultMap>
+    <insert id="insert" parameterType="item">
+        insert into item
+        (type,skin,quality)
+        values
+        (#{type},#{skin},#{quality})
+    </insert>
+
+    <delete id="delete">
+        delete from item
+        where
+        id = #{id}
+    </delete>
+
+    <update id="update" parameterType="item">
+        update item
+        set
+        type=#{type},skin=#{skin},quality=#{quality}
+        where id=#{id}
+    </update>
+
+    <select id="findItemById" resultMap="itemMap">
+        select *
+        from item
+        where id = #{id}
+    </select>
+
+    <select id="findAllItems" resultMap="itemMap">
+        select *
+        from item
+    </select>
+</mapper>

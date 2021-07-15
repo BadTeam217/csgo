@@ -28,27 +28,31 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/*")
-		.hasAnyRole("USER")
-		.anyRequest()
-		.authenticated()
-		.and()
-		.formLogin()
-		.successForwardUrl("/doIndexUI")
-		.permitAll()
-		.and()
-		.logout()
-		.permitAll()
-		.and()
-		.exceptionHandling()
-		.accessDeniedHandler(accessDeniedHandler);
+		.antMatchers("/*").permitAll();
+//		.hasAnyRole("USER")
+//		.anyRequest()
+//		.authenticated()
+//		.and()
+//		.formLogin()
+//		.successForwardUrl("/doIndexUI")
+//		.permitAll()
+//		.and()
+//		.logout()
+//		.permitAll()
+//		.and()
+//		.exceptionHandling()
+//		.accessDeniedHandler(accessDeniedHandler)
+
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		super.configure(web);
+		web.ignoring()
+				.antMatchers("/js/**")
+				.antMatchers("/css/**");
 	}
 
 	@Bean

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sc.dao.StockDao">
+    <resultMap id="itemMap" type="item">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="skin" property="skin"/>
+        <result column="quality" property="quality"/>
+    </resultMap>
+    <resultMap id="stockMap" type="stock">
+        <result column="user_id" property="user_id"/>
+        <result column="item_id" property="item_id"/>
+    </resultMap>
+    <insert id="insert" parameterType="stock">
+        insert into stock
+            (user_id,item_id)
+        values
+            (#{user_id},#{item_id})
+    </insert>
+
+    <delete id="delete">
+        delete from stock
+        where
+        user_id=#{user_id} and item_id=#{item_id}
+    </delete>
+
+
+    <select id="findItemsByUserId" resultMap="itemMap">
+        select * from item
+        where id=any(
+            select item_id
+            from stock
+            where user_id=#{user_id}
+        )
+
+    </select>
+
+    <select id="findUserByItemId" resultType="user">
+        select * from user
+        where id=(
+            select user_id from stock
+            where item_id=#{item_id}
+        )
+    </select>
+
+</mapper>
