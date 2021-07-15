@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class StockDaoTest {
     @Autowired
     StockDao stockDao;
-
+/**
     @Test
     void insert(){
         System.out.println(stockDao.insert(new Stock(1, 1)));
@@ -27,4 +27,5 @@ public class StockDaoTest {
     void delete(){
         System.out.println(stockDao.delete(new Stock(1, 1)));
     }
+ */
 }
