@@ -2,6 +2,7 @@ package com.sc.dao;
 
 import java.util.List;
 
+import com.sc.pojo.Stock;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.sc.vo.UserItemVo;
@@ -13,10 +14,11 @@ public interface StockDao {
 	 * @param user_id
 	 * @param startIndex
 	 * @param pageSize
-	 * @param type
-	 * @param skin
-	 * @param quality
 	 * @return
 	 */
 	List<UserItemVo> findPageObject(Integer user_id, long startIndex, long pageSize);
+
+	public int insert(Stock stock);
+
+	public int delete(Integer id);
 }

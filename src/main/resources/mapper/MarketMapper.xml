@@ -4,5 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sc.dao.MarketDao">
+        <insert id="insert" parameterType="market">
+            insert into market
+            (seller_id,item_id,price,datetime)
+            values
+            (#{seller_id},#{item_id},#{price},#{datetime})
+        </insert>
 
+        <delete id="delete" parameterType="market">
+            delete from market
+            where item_id=#{item_id}
+        </delete>
+
+        <select id="findItemsBySellerId" parameterType="int" resultType="item">
+            select *
+            from item
+            where id=any(
+                select item_id
+                from market
+                where seller_id=#{seller_id}
+            )
+        </select>
+
+        <select id="findSellerByItemId" parameterType="int" resultType="seller">
+            select *
+            from seller
+            where id = (
+                select seller_id from market
+                where item_id=#{item_id}
+                )
+        </select>
 </mapper>
