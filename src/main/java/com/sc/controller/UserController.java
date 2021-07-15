@@ -18,7 +18,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseBody
     public String register(User user){
-        //登录功能
+        //注册功能
         int result = userService.insertUser(user);
         return ResponseMsgUtil.getResult(result);
     }
