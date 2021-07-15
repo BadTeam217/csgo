@@ -10,6 +10,7 @@ import com.sc.vo.UserItemVo;
 @Mapper
 public interface StockDao {
 	/**
+	 * 查询页记录
 	 * 
 	 * @param user_id
 	 * @param startIndex
@@ -17,6 +18,8 @@ public interface StockDao {
 	 * @return
 	 */
 	List<UserItemVo> findPageObject(Integer user_id, long startIndex, long pageSize);
+
+	long getRowCount(Integer user_id);
 
 	public int insert(Stock stock);
 

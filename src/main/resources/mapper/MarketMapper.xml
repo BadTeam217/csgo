@@ -18,8 +18,21 @@
 	</resultMap>
 
 	<select id="findPageObject" resultMap="MarketVo">
-		select *
+		select
+		seller_id,item_id,price,datetime
 		from market
+		order by
+		datetime desc
+		limit
+		#{startIndex},#{pageSize}
+	</select>
+
+	<select id="findPageObjectByPrice" resultMap="MarketVo">
+		select
+		seller_id,item_id,price,datetime
+		from market
+		order by
+		price,datetime desc
 		limit
 		#{startIndex},#{pageSize}
 	</select>

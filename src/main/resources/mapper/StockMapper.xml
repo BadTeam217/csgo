@@ -21,15 +21,23 @@
 
 	<insert id="insert" parameterType="stock">
 		insert into stock
-		(user_id, item_id)
+		(user_id,
+		item_id)
 		values
 		(#{user_id},#{item_id})
 	</insert>
 
 	<delete id="delete" parameterType="int">
 		delete from stock
-		where item_id=#{item_id}
+		where
+		item_id=#{item_id}
 	</delete>
+
+	<select id="getRowCount" resultType="long">
+		select count(*) from stock
+		where
+		user_id = #{user_id}
+	</select>
 
 </mapper>
 
