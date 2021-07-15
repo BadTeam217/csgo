@@ -18,6 +18,5 @@ public interface StockDao {
 	 * @param quality
 	 * @return
 	 */
-	List<UserItemVo> findPageObject(Integer user_id, long startIndex, long pageSize, String type, String skin,
-			String quality);
+	List<UserItemVo> findPageObject(Integer user_id, long startIndex, long pageSize);
 }
