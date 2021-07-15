@@ -3,6 +3,7 @@ package com.sc.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class Market implements Serializable {
 	private Integer seller_id;
 	private Integer item_id;
 	private Double price;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date datetime;
 
 }
