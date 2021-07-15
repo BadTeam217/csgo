@@ -17,31 +17,50 @@ public class MarketServiceImpl implements MarketService {
 	private MarketDao marketDao;
 
 	@Override
-	public PageObject<MarketVo> findPageObjects(Long pageCurrent, String type, String skin, String quality) {
+	public PageObject<MarketVo> findPageObject(Long pageCurrent, String type, String skin, String quality) {
 		// 参数校验
 		if (pageCurrent == null || pageCurrent < 1)
 			throw new IllegalArgumentException("当前页码值无效");
 		// 查询当前页记录
+		long rowCount = marketDao.getRowCount();
 		int pageSize = 5;
 		long startIndex = (pageCurrent - 1) * pageSize;
 		List<MarketVo> results = marketDao.findPageObject(startIndex, pageSize);
 		List<MarketVo> records = new ArrayList<>();
 		for (MarketVo r : results) {
 			boolean flag = true;
-			if (type != null && r.getItem().getType().indexOf(type) == -1)
-				flag = false;
-			if (skin != null && r.getItem().getSkin().indexOf(skin) == -1)
-				flag = false;
-			if (quality != null && r.getItem().getQuality().indexOf(quality) == -1)
-				flag = false;
+			if (type != null && r.getItem().getType().indexOf(type) == -1) {
+				rowCount--;
+				continue;
+			}
+			if (skin != null && r.getItem().getSkin().indexOf(skin) == -1) {
+				rowCount--;
+				continue;
+			}
+			if (quality != null && r.getItem().getQuality().indexOf(quality) == -1) {
+				rowCount--;
+				continue;
+			}
 			if (flag)
 				records.add(r);
 		}
-		if (records.size() == 0)
+		if (rowCount == 0)
 			throw new IllegalArgumentException("无记录");
-		long rowCount = records.size();
 		// 封装查询结果
 		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
 	}
 
+	@Override
+	public PageObject<MarketVo> findPageObjectByPrice(Long pageCurrent) {
+		// 参数校验
+		if (pageCurrent == null || pageCurrent < 1)
+			throw new IllegalArgumentException("当前页码值无效");
+		// 查询当前页记录
+		int pageSize = 5;
+		long startIndex = (pageCurrent - 1) * pageSize;
+		List<MarketVo> records = marketDao.findPageObjectByPrice(startIndex, pageSize);
+		long rowCount = records.size();
+		// 封装查询结果
+		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
+	}
 }
