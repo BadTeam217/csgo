@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sc.dao.StockDao">
+
+	<resultMap id="UserItemVo" type="com.sc.vo.UserItemVo">
+		<association property="user" column="user_id"
+			select="com.sc.dao.UserDao.findObjectById"></association>
+		<association property="item" column="item_id"
+			select="com.sc.dao.ItemDao.findObjectById"></association>
+	</resultMap>
+
+	<select id="findPageObject" resultMap="UserItemVo">
+		select *
+		from stock
+		where
+		user_id = #{user_id}
+		limit #{startIndex},#{pageSize}
+	</select>
+
+</mapper>
