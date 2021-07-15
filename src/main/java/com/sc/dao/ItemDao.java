@@ -1,20 +1,11 @@
 package com.sc.dao;
 
-import com.sc.pojo.Item;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
-import java.util.List;
+import com.sc.pojo.Item;
+
 @Mapper
 public interface ItemDao {
-
-    public int insert(Item item);
-
-    public int delete(Integer id);
-
-    public int update(Item item);
-
-    public Item findItemById(Integer id);
-
-    public List<Item> findAllItems();
-
+	Item findObjectById(Integer id);
 }
