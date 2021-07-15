@@ -7,27 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sc.common.vo.PageObject;
-import com.sc.dao.StockDao;
-import com.sc.service.StockService;
-import com.sc.vo.UserItemVo;
+import com.sc.dao.MarketDao;
+import com.sc.service.MarketService;
+import com.sc.vo.MarketVo;
 
 @Service
-public class StockServiceImpl implements StockService {
+public class MarketServiceImpl implements MarketService {
 	@Autowired
-	StockDao stockDao;
+	private MarketDao marketDao;
 
 	@Override
-	public PageObject<UserItemVo> findPageObjects(Integer user_id, Long pageCurrent, String type, String skin,
-			String quality) {
+	public PageObject<MarketVo> findPageObjects(Long pageCurrent, String type, String skin, String quality) {
 		// 参数校验
 		if (pageCurrent == null || pageCurrent < 1)
 			throw new IllegalArgumentException("当前页码值无效");
 		// 查询当前页记录
 		int pageSize = 5;
 		long startIndex = (pageCurrent - 1) * pageSize;
-		List<UserItemVo> results = stockDao.findPageObject(user_id, startIndex, pageSize);
-		List<UserItemVo> records = new ArrayList<>();
-		for (UserItemVo r : results) {
+		List<MarketVo> results = marketDao.findPageObject(startIndex, pageSize);
+		List<MarketVo> records = new ArrayList<>();
+		for (MarketVo r : results) {
 			boolean flag = true;
 			if (type != null && r.getItem().getType().indexOf(type) == -1)
 				flag = false;
