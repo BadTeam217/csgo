@@ -1,8 +1,9 @@
 package com.sc.util;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+
+import javax.servlet.http.HttpServletResponse;
 
 public class ResponseMsgUtil {
     private LinkedHashMap<String,Object> messages;

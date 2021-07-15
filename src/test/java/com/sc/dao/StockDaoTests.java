@@ -18,4 +18,10 @@ public class StockDaoTests {
 		List<UserItemVo> r = stockDao.findPageObject(1, 0, 2);
 		System.out.println(r);
 	}
+
+	@Test
+	public void testGetRowCount() {
+		long r = stockDao.getRowCount(1);
+		System.out.println(r);
+	}
 }
