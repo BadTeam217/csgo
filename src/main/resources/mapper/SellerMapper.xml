@@ -16,4 +16,10 @@
         from user
         where id = #{user_id}
     </select>
+
+    <select id="findSellerBySellerId" parameterType="int" resultType="seller">
+        select *
+        from seller
+        where seller_id = #{seller_id}
+    </select>
 </mapper>
