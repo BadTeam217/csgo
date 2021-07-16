@@ -12,7 +12,10 @@
 	<link rel="stylesheet" href="css/style.css">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-
+	<script src="js/Follow.js"></script>
+	<script src="js/Tips.js"></script>
+	<script src="js/ErrorTip.js"></script>
+	
 </head>
 
 <body>
@@ -54,8 +57,8 @@
 
 						<div id="user_item">
 							道具：<div style="text-align:right;">
-								<input type="search" class="ui-input">
-								<input type="button" class="ui-button" value="搜索" data-type="primary">
+								<input id="search_box" type="search" class="ui-input" required>
+								<input id="search" type="button" class="ui-button" value="搜索" data-type="primary">
 							</div>
 							<table class="ui-table">
 								<thead>
@@ -82,7 +85,7 @@
 								<legend>修改信息</legend>
 								<form method="POST" action="">
 									<h5>用户名:<input class="ui-input" required /></h5><br />
-									<input type="button" value="修改" class="ui-button" data-type="primary" />
+									<input id="update" type="button" value="修改" class="ui-button" data-type="primary" />
 								</form>
 							</fieldset>
 						</div>
@@ -94,7 +97,7 @@
 									<h5>旧密码:<input class="ui-input" required /></h5><br />
 									<h5>新密码:<input class="ui-input" required /></h5><br />
 									<h5>确认密码:<input class="ui-input" required /></h5><br />
-									<input type="button" value="修改" class="ui-button" data-type="primary" />
+									<input id="updatepwd" type="button" value="修改" class="ui-button" data-type="primary" />
 								</form>
 							</fieldset>
 						</div>
@@ -151,6 +154,46 @@
 			$("#user_item").hide();
 			$("#updatePwd_form").show();
 		})
+
+		var eleBtnSearch = document.getElementById("search");
+		eleBtnSearch.addEventListener('click', function () {
+			var eleAllInput = this.parentElement.querySelectorAll('#search_box');
+
+			eleAllInput.forEach(function (input, index) {
+				if (input.value == '') {
+					new ErrorTip(input, '尚未输入搜索内容', {
+						unique: false
+					});
+				}
+			});
+		});
+
+		var eleBtnSearch = document.getElementById("update");
+		eleBtnSearch.addEventListener('click', function () {
+			var eleAllInput = this.parentElement.querySelectorAll('input');
+
+			eleAllInput.forEach(function (input, index) {
+				if (input.value == '') {
+					new ErrorTip(input, '尚未输入内容', {
+						unique: false
+					});
+				}
+			});
+		});
+
+		var eleBtnSearch = document.getElementById("updatepwd");
+		eleBtnSearch.addEventListener('click', function () {
+			var eleAllInput = this.parentElement.querySelectorAll('input');
+
+			eleAllInput.forEach(function (input, index) {
+				if (input.value == '') {
+					new ErrorTip(input, '尚未输入内容', {
+						unique: false
+					});
+				}
+			});
+		});
+
 	</script>
 </body>
 
