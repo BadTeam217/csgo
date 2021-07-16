@@ -39,5 +39,10 @@
 		user_id = #{user_id}
 	</select>
 
+	<select id="findStockByItemAndUser" resultType="stock">
+		select *
+		from stock
+		where item_id=#{item_id} and user_id=#{user_id}
+	</select>
 </mapper>
 

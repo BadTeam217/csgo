@@ -1,7 +1,6 @@
 package com.sc.dao;
 
-import com.sc.pojo.Stock;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,4 +27,6 @@ public class StockDaoTest {
         System.out.println(stockDao.delete(new Stock(1, 1)));
     }
  */
+
+
 }

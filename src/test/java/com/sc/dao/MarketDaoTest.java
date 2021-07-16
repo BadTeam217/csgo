@@ -35,4 +35,8 @@ public class MarketDaoTest {
 		List<MarketVo> r = marketDao.findPageObject(0, 5);
 		System.out.println(r);
 	}
+	@Test
+	void findMarketBYItem(){
+		System.out.println(marketDao.findMarketBYItem(1));
+	}
 }

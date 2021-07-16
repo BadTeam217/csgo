@@ -24,4 +24,6 @@ public interface StockDao {
 	public int insert(Stock stock);
 
 	public int delete(Integer id);
+
+	public Stock findStockByItemAndUser(Integer user_id,Integer item_id);
 }

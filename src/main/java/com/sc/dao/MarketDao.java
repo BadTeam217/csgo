@@ -2,6 +2,7 @@ package com.sc.dao;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -27,4 +28,6 @@ public interface MarketDao {
 
 	@Select("select count(*) from market")
 	long getRowCount();
+
+	public Market findMarketBYItem(Integer item_id);
 }
