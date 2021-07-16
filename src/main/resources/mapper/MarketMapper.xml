@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sc.dao.MarketDao">
+	<insert id="insert" parameterType="market">
+		insert into market
+		(seller_id,item_id,price,datetime)
+		values
+		(#{seller_id},#{item_id},#{price},#{datetime})
+	</insert>
+
+	<resultMap id="MarketVo" type="com.sc.vo.MarketVo">
+		<association property="user" column="seller_id"
+			select="com.sc.dao.SellerDao.findUserBySeller"></association>
+		<association property="item" column="item_id"
+			select="com.sc.dao.ItemDao.findObjectById"></association>
+	</resultMap>
+
+	<select id="findPageObject" resultMap="MarketVo">
+		select
+		seller_id,item_id,price,datetime
+		from market
+		order by
+		datetime desc
+		limit
+		#{startIndex},#{pageSize}
+	</select>
+
+	<select id="findPageObjectByPrice" resultMap="MarketVo">
+		select
+		seller_id,item_id,price,datetime
+		from market
+		order by
+		price,datetime desc
+		limit
+		#{startIndex},#{pageSize}
+	</select>
+
+
+	<delete id="delete" parameterType="market">
+		delete from market
+		where
+		item_id=#{item_id}
+	</delete>
+
+	<select id="findItemsBySellerId" parameterType="int"
+		resultType="item">
+		select *
+		from item
+		where id=any(
+		select item_id
+		from market
+		where seller_id=#{seller_id}
+		)
+	</select>
+
+	<select id="findSellerByItemId" parameterType="int"
+		resultType="seller">
+		select *
+		from seller
+		where id = (
+		select seller_id from market
+		where item_id=#{item_id}
+		)
+	</select>
+
+</mapper>
