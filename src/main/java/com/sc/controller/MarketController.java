@@ -10,7 +10,7 @@ import com.sc.service.MarketService;
 import com.sc.vo.MarketVo;
 
 @RestController
-@RequestMapping("/Market/")
+@RequestMapping("/market/")
 public class MarketController {
 	@Autowired
 	private MarketService marketService;

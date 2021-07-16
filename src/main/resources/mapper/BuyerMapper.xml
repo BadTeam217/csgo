@@ -5,16 +5,27 @@
 
 <mapper namespace="com.sc.dao.BuyerDao">
 
-    <insert id="insert" parameterType="buyer">
-        insert into buyer
-        (user_id)
-        values
-        (#{user_id})
-    </insert>
+	<insert id="insert" parameterType="buyer">
+		insert into buyer
+		(user_id)
+		values
+		(#{user_id})
+	</insert>
 
-    <select id="findUserByBuyer" parameterType="buyer" resultType="user">
-        select *
-        from user
-        where id = #{user_id}
-    </select>
+	<select id="findUserByBuyer" parameterType="buyer"
+		resultType="user">
+		select *
+		from user
+		where id = #{user_id}
+	</select>
+
+
+	<resultMap id="User" type="com.sc.pojo.User">
+		<association property="user" column="user_id"
+			select="com.sc.dao.UserDao.findObjectById"></association>
+	</resultMap>
+	<select id="findUserByBuyerId" resultMap="User">
+		select user_id from
+		buyer where id=#{id}
+	</select>
 </mapper>
