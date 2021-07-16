@@ -10,7 +10,7 @@ import com.sc.service.MarketService;
 import com.sc.vo.MarketVo;
 
 @RestController
-@RequestMapping("/Market")
+@RequestMapping("/Market/")
 public class MarketController {
 	@Autowired
 	private MarketService marketService;
@@ -24,6 +24,7 @@ public class MarketController {
 	 * @param quality
 	 * @return
 	 */
+	@RequestMapping("doFindPageObjects")
 	public JsonResult doFindPageObjects(Long pageCurrent, String type, String skin, String quality) {
 		PageObject<MarketVo> result = marketService.findPageObject(pageCurrent, type, skin, quality);
 		return new JsonResult(result);
