@@ -77,7 +77,7 @@ public class MarketServiceImpl implements MarketService {
 
 	@Override
 	public int offShelf(Market market) {
-		if (market.getItem_id() != null && market.getSeller_id() != null && market.getPrice() != null && market.getDatetime() != null){
+		if (market.getItem_id() != null && market.getSeller_id() != null){
 			if (marketDao.findMarketBYItem(market.getItem_id()) != null){
 				Seller seller = sellerDao.findSellerBySellerId(market.getSeller_id());
 				User user = sellerDao.findUserBySeller(seller);

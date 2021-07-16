@@ -20,6 +20,6 @@
     <select id="findSellerBySellerId" parameterType="int" resultType="seller">
         select *
         from seller
-        where seller_id = #{seller_id}
+        where id = #{seller_id}
     </select>
 </mapper>
