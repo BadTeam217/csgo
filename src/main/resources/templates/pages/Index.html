@@ -2,7 +2,6 @@
 
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
-
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
@@ -13,7 +12,7 @@
 	<div>
 		<div>用户:</div>
 		<div id="userId">
-
+			
 			<span th:text="${session.USER.name}"
 				th:attr="data-id=${session.USER.id}">
 			</span>
@@ -24,6 +23,7 @@
 	<h1>hello</h1>
 	<hr>
 	<a id="load-doLog-id" href="logout">logout</a>
+	<a href="/userinfo">userinfo</a>
 </body>
 
 </html>

@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int update(User user) {
         if (user.getId() != null && user.getName() != null && user.getPassword() != null && user.getAccount() != null){
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        	user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userDao.updateObjectById(user);
         }
         return -1;
