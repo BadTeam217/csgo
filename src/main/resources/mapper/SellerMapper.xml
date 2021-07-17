@@ -18,6 +18,7 @@
 		where id = #{user_id}
 	</select>
 
+
 	<select id="findSellerBySellerId" parameterType="int"
 		resultType="seller">
 		select *
@@ -33,4 +34,5 @@
 		select user_id from
 		seller where id=#{id}
 	</select>
+
 </mapper>

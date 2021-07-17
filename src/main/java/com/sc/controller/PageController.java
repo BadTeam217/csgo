@@ -21,5 +21,6 @@ public class PageController {
 	@GetMapping("ll")
 	public String ll() {
 		return "login";
+
 	}
 }

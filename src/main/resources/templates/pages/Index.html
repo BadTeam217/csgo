@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 	<meta charset="UTF-8">
@@ -12,8 +12,10 @@
 	<div>
 		<div>用户:</div>
 		<div id="userId">
-
-			<span th:text="${session.USER.name}" th:attr="data-id=${session.USER.id}"></span>
+			
+			<span th:text="${session.USER.name}"
+				th:attr="data-id=${session.USER.id}">
+			</span>
 
 		</div>
 	</div>
