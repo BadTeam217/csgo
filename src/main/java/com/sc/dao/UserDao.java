@@ -18,4 +18,7 @@ public interface UserDao {
 	int insertObject(User user);
 
 	int updateObjectById(User user);
+
+	@Select("select * from user where account=#{account}")
+	User findUserByAccount(String account);
 }

@@ -33,4 +33,8 @@ public class UserDaoTests {
 		userDao.insertObject(user);
 		System.out.println(user);
 	}
+	@Test
+	void findUserByAccount(){
+		System.out.println(userDao.findUserByAccount("21704"));
+	}
 }

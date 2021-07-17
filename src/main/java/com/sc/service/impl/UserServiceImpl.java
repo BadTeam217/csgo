@@ -10,6 +10,7 @@ import com.sc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public int insertUser(User user) {
         if (user.getName() != null && user.getAccount() != null && user.getPassword() != null){
             //空值判断
@@ -36,5 +38,18 @@ public class UserServiceImpl implements UserService {
             return result;
         }else return 0;
 
+    }
+
+    @Override
+    public User findUserByAccount(String account) {
+        return userDao.findUserByAccount(account);
+    }
+
+    @Override
+    public int update(User user) {
+        if (user.getId() != null && user.getName() != null && user.getPassword() != null && user.getAccount() != null){
+            return userDao.updateObjectById(user);
+        }
+        return -1;
     }
 }
