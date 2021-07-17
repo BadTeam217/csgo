@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.sc.common.vo.JsonResult;
 import com.sc.dao.ItemDao;
 import com.sc.dao.UserDao;
 import com.sc.pojo.User;

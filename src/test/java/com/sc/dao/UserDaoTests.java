@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.sc.pojo.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
 public class UserDaoTests {
@@ -24,8 +24,9 @@ public class UserDaoTests {
 		int result = userDao.insertObject(user);
 		System.out.println(result);
 	}
+
 	@Test
-	void insert(){
+	void insert() {
 		User user = new User();
 		user.setAccount("123456");
 		user.setName("张三");
@@ -33,8 +34,16 @@ public class UserDaoTests {
 		userDao.insertObject(user);
 		System.out.println(user);
 	}
+
 	@Test
-	void findUserByAccount(){
+	void findUserByAccount() {
 		System.out.println(userDao.findUserByAccount("21704"));
+	}
+
+	@Test
+	void testUpdate() {
+		User user = new User(1, "欧金金", passwordEncoder.encode("21704"), "21704");
+		int r = userDao.updateObjectById(user);
+		System.out.println(r);
 	}
 }

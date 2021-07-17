@@ -41,7 +41,7 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return user.getAccount();//使用邮箱登录
+		return user.getName();
 	}
 
 	public String getAccount() {

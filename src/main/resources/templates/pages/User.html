@@ -31,10 +31,9 @@
 					<ul class="dropdown-menu" role="menu">
 						<li class="dropdown-header"> </li>
 						<li> <a id="updateInfo"> 修改信息 </a> </li>
-						<li> <a id="updatePwd"> 修改密码 </a> </li>
 					</ul>
 				</li>
-				<li><a id="logout" href="logout"><i class="fa fa-fw fa-folder"></i>logout</a></li>
+				<li><a id="logout" href="logout"><i class="fa fa-fw fa-folder"></i>登出</a></li>
 			</ul>
 		</nav>
 
@@ -52,7 +51,7 @@
 							<div>用户:</div>
 							<div>
 								<span id="userId" th:text="${session.USER.name}"
-									th:attr="data-id=${session.USER.id}"></span>
+									th:attr="data-id=${session.USER.id},data-account=${session.USER.account}"></span>
 							</div>
 						</div>
 						<hr>
@@ -103,7 +102,7 @@
 								</table>
 								<div class="table-page-x">
 									<div class="table-page-data">
-										共<output id="rowCount" class="table-page-total"></output>件物品, 每页最多显示
+										共<output id="rowCount" class="table-page-total"></output>件道具, 每页最多显示
 										<output id="pageSize" href="javascript:"></output> 件
 									</div>
 									<div class="table-page">
@@ -120,22 +119,10 @@
 						<div id="updateInfo_form" style="display:none;text-align: center;">
 							<fieldset>
 								<legend>修改信息</legend>
-								<form method="POST" action="">
-									<h5>用户名:<input class="ui-input" required /></h5><br />
+								<form id="update_form" method="POST" action="">
+									<h5>用户名:<input name="name" id="username" class="ui-input" required /></h5><br />
+									<h5>新密码:<input name="password" id="password" class="ui-input" required /></h5><br />
 									<input id="update" type="button" value="修改" class="ui-button" data-type="primary" />
-								</form>
-							</fieldset>
-						</div>
-
-						<div id="updatePwd_form" style="display:none;text-align: center;">
-							<fieldset>
-								<legend>修改密码</legend>
-								<form method="POST" action="">
-									<h5>旧密码:<input class="ui-input" required /></h5><br />
-									<h5>新密码:<input class="ui-input" required /></h5><br />
-									<h5>确认密码:<input class="ui-input" required /></h5><br />
-									<input id="updatepwd" type="button" value="修改" class="ui-button"
-										data-type="primary" />
 								</form>
 							</fieldset>
 						</div>
@@ -199,21 +186,9 @@
 				}
 			});
 		});
-
-		var eleBtnSearch = document.getElementById("updatepwd");
-		eleBtnSearch.addEventListener('click', function () {
-			var eleAllInput = this.parentElement.querySelectorAll('input');
-
-			eleAllInput.forEach(function (input, index) {
-				if (input.value == '') {
-					new ErrorTip(input, '尚未输入内容', {
-						unique: false
-					});
-				}
-			});
-		});
 	</script>
 	<script>
+		//视图切换
 		$("#showItem").click(function () {
 			$("#user_item").show();
 			$("#updateInfo_form").hide();
@@ -226,19 +201,14 @@
 			$("#updatePwd_form").hide();
 		});
 
-		$("#updatePwd").click(function () {
-			$("#updateInfo_form").hide();
-			$("#user_item").hide();
-			$("#updatePwd_form").show();
-		});
-
+		//道具
+		var account = $("#userId").data("account");
 		var user_id = $("#userId").data("id");
 		var pageCurrent, type, skin, quality, rowCount, pageCount, pageSize;
 		var itemList, res;
 
 		$(document).ready(function () {
 			doGetItems();
-			//doShowPageInfo();
 		})
 
 		$("#search").click(function () {
@@ -258,9 +228,9 @@
 		})
 
 		$("#nextPage").click(function () {
-			if(pageCurrent==pageCount){
+			if (pageCurrent == pageCount) {
 				alert("已经是最后一页了");
-			}else{
+			} else {
 				pageCurrent++;
 				doGetItems();
 			}
@@ -365,6 +335,34 @@
 
 		function doClearEl(el) {
 			$(el).empty();
+		}
+
+		//修改信息
+
+
+		$("#update").click(function () {
+			var user = {
+				id: user_id,
+				name: $("#username").val(),
+				password: $("#password").val(),
+				account: account
+			};
+			doUpadateInfo(user);
+		})
+
+		function doUpadateInfo(el) {
+			debugger
+			$.ajax({
+				url: "user/update",
+				type: "put",
+				dataType: "json",
+				data: el,
+				success: function (result) {
+					alert(result.result);
+					$("#username").val("");
+					$("#password").val("");
+				}
+			})
 		}
 
 	</script>
