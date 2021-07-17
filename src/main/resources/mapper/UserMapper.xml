@@ -19,10 +19,15 @@
 		update user
 		set
 		name=#{name},
-		password=#{password},
+		password=#{password}
 		where id=#{id}
 	</update>
 
+	<update id="update" parameterType="user">
+		update user
+		set name = #{name},password=#{password}
+		where id = #{id}
+	</update>
 
 
 </mapper>

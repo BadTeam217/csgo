@@ -37,4 +37,14 @@ public class UserDaoTests {
 	void findUserByAccount(){
 		System.out.println(userDao.findUserByAccount("21704"));
 	}
+
+	@Test
+	void update(){
+		User user = new User();
+		user.setAccount("123456");
+		user.setName("哈哈");
+		user.setPassword(passwordEncoder.encode("123456"));
+		user.setId(6);
+		System.out.println(userDao.update(user));
+	}
 }
