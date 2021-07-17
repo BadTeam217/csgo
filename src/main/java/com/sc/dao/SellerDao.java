@@ -7,9 +7,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SellerDao {
 
-    public int insert(Seller seller);
+	public int insert(Seller seller);
 
-    public User findUserBySeller(Seller seller);
+	public User findUserBySeller(Seller seller);
 
-    public Seller findSellerBySellerId(Integer seller_id);
+	User findUserBySellerId(Integer id);
+
+	public Seller findSellerBySellerId(Integer seller_id);
 }
