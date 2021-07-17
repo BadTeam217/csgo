@@ -13,6 +13,7 @@ import com.sc.common.vo.PageObject;
 import com.sc.dao.MarketDao;
 import com.sc.service.MarketService;
 import com.sc.vo.MarketVo;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MarketServiceImpl implements MarketService {
@@ -58,6 +59,7 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
+	@Transactional
 	public int putOnShelf(Market market) {
 		if (market.getItem_id() !=null && market.getSeller_id() != null && market.getPrice() != null && market.getDatetime() != null){
 			if (stockDao.findStockByItemAndUser(
@@ -76,6 +78,7 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
+	@Transactional
 	public int offShelf(Market market) {
 		if (market.getItem_id() != null && market.getSeller_id() != null){
 			if (marketDao.findMarketBYItem(market.getItem_id()) != null){
