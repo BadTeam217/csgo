@@ -41,7 +41,6 @@ public class UserDaoTests {
 	}
 
 	@Test
-<<<<<<< HEAD
 	void update(){
 		User user = new User();
 		user.setAccount("123456");
@@ -49,11 +48,6 @@ public class UserDaoTests {
 		user.setPassword(passwordEncoder.encode("123456"));
 		user.setId(6);
 		System.out.println(userDao.update(user));
-=======
-	void testUpdate() {
-		User user = new User(1, "欧金金", passwordEncoder.encode("21704"), "21704");
-		int r = userDao.updateObjectById(user);
-		System.out.println(r);
->>>>>>> Aperson
+
 	}
 }
