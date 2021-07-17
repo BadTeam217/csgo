@@ -4,11 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.StringIdGenerator;
-
 @Controller
 @RequestMapping("/")
 public class PageController {
+
 	@RequestMapping("doIndexUI")
 	public String doIndexUI() {
 		return "Index";
@@ -18,8 +17,9 @@ public class PageController {
 	public String showUser() {
 		return "User";
 	}
+
 	@GetMapping("ll")
-	public String ll(){
+	public String ll() {
 		return "login";
 	}
 }
