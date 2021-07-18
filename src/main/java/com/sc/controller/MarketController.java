@@ -34,6 +34,7 @@ public class MarketController {
 		return new JsonResult(result);
 	}
 
+
 	@PostMapping("doPutOnShelf")
 	public String putOnShelf(Market market){
 		int result = marketService.putOnShelf(market);
@@ -52,5 +53,12 @@ public class MarketController {
 			r = ResponseMsgUtil.getResult("NotExist");
 		}else r = ResponseMsgUtil.getResult(result);
 		return r;
+	}
+
+	@RequestMapping("/doFindPageObjectsOnShelf")
+	public JsonResult doFindPageObjectsOnShelf(Integer user_id, Long pageCurrent) {
+		PageObject<MarketVo> result = marketService.findPageObjectsOnShelf(user_id, pageCurrent);
+		return new JsonResult(result);
+
 	}
 }

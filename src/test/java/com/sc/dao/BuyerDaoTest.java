@@ -16,6 +16,6 @@ public class BuyerDaoTest {
 
     @Test
     void findUserByBuyer(){
-        System.out.println(buyerDao.findUserByBuyer(new Buyer(1, 1)));
+
     }
 }
