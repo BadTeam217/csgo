@@ -12,13 +12,6 @@
 		(#{user_id})
 	</insert>
 
-	<select id="findUserByBuyer" parameterType="buyer"
-		resultType="user">
-		select *
-		from user
-		where id = #{user_id}
-	</select>
-
 
 	<resultMap id="User" type="com.sc.pojo.User">
 		<association property="user" column="user_id"
