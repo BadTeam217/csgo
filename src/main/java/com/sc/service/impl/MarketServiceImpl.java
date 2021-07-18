@@ -100,6 +100,7 @@ public class MarketServiceImpl implements MarketService {
 		return null;
 	}
 
+	@Override
 	public PageObject<MarketVo> findPageObjectByPrice(Long pageCurrent) {
 		// 参数校验
 		if (pageCurrent == null || pageCurrent < 1)
@@ -122,7 +123,7 @@ public class MarketServiceImpl implements MarketService {
 		int pageSize = 5;
 		long startIndex = (pageCurrent - 1) * pageSize;
 		Seller seller = sellerDao.findSellerByUserId(user_id);
-		List<MarketVo> records = marketDao.findPageObjectOnShelf(seller.getId(),startIndex, pageSize)
+		List<MarketVo> records = marketDao.findPageObjectOnShelf(seller.getId(), startIndex, pageSize);
 		long rowCount = marketDao.getRowCount(seller.getId());
 		// 封装查询结果
 		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
