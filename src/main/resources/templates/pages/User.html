@@ -436,10 +436,7 @@
 			return timg;
 		}
 
-		function doCreateUnLoadButton(data) {
-			var tbtn = "<input type='button' value='上架' class='ui-button load' data-type='success' item_id=" + data + ">";
-			return tbtn;
-		}
+
 
 		function doClearEl(el) {
 			$(el).empty();
@@ -469,7 +466,7 @@
 								$("#price").val("");
 								datetime = new Date().Format("yyyy-MM-dd HH:mm:ss");
 								doPutOnShelf();
-								
+
 								event.dialog.hide();
 							}
 						},
@@ -518,6 +515,10 @@
 		}
 
 		//下架
+		function doCreateUnLoadButton(data) {
+			var tbtn = "<input type='button' value='上架' class='ui-button load' data-type='success' item_id=" + data + ">";
+			return tbtn;
+		}
 
 		//修改信息
 		$("#update").click(function () {
