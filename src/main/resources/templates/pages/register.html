@@ -1,81 +1,38 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Register</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Fashionpress Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<link href="css/bootstrap1.css" rel='stylesheet' type='text/css' />
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<!-- Custom Theme files -->
-<link href="css/style1.css" rel='stylesheet' type='text/css' />
-<!-- Custom Theme files -->
-<!--webfont-->
-<link href='http://fonts.useso.com/css?family=Lato:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-</head>
-<body>
-<div class="header">
-	<div class="header_top">
-		<div class="container">
-			<div class="logo">
-				<a href="Market.html"><img src="images/logo.png" alt=""/></a>
-			</div>
-			<ul class="shopping_grid">
-			      <a href="login.html"><li>登录</li></a>
-				  <a href="#"><li>个人信息</li></a>
-			      <div class="clearfix"> </div>
-			</ul>
-		    <div class="clearfix"> </div>
-		</div>
-	</div>
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please register</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+  </head>
+  <body>
+     <div class="container">
+      <form class="form-signin">
+        <h2 class="form-signin-heading">请注册</h2>
+        <p>
+          <label id="username" class="sr-only">用户名</label>
+          <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required="" autofocus="">
+        </p>
+        <p>
+          <label for="password" class="sr-only">密码</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="密码" required="">
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" id="register">注册</button>
 </div>
-<div class="about">
-  <div class="container">
-      <div class="register">
-		  	  <form> 
-				 <div class="register-top-grid">
-					<h3>用户注册</h3>
-					 <div>
-						<span>用户名</span>
-						<input id="account" type="text"> 
-					 </div>
-					 <div class="clearfix"> </div>
-					   <a class="news-letter" href="#">
-					   </a>
-					 </div>
-				     <div class="register-bottom-grid">
-							 <div>
-								<span>密码</span>
-								<input id="password" type="text">
-							 </div>
-							 <div class="clearfix"> </div>
-					 </div>
-				</form>
-				<div class="clearfix"> </div>
-				<div class="register-but">
-				   <form>
-					   <input id="register" type="submit" value="确认">
-					   <div class="clearfix"> </div>
-				   </form>
-				</div>
-		   </div>
-	</div>
-</div>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
 
 <script type="text/javascript">
     $("#register").click(function(){
-		let account = ${"#account"}.val();
-		let password = ${"#password"}.val();
+		let username = $("#username").val();
+		let password = $("#password").val();
 		$.ajax({
 			url:"/user/register",
-			type:"post";
+			type:"post",
 			dataType:"json",
-			data:{account:account,password:password},
+			data:{account:username,password:password},
 			contentType:"application/json;charset=UTF-pe8",
             success:function(data){
 				console.log(date);
@@ -89,4 +46,4 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	})	
 </script>
 
-</html>		
+</html>

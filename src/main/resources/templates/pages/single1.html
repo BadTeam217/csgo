@@ -111,18 +111,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript">
  $(document).ready(function(){
 		 $.ajax({
-			 url:"###",
+			 url:"/record/doFindPageObjects",
 			 type:"get",
 			 datatype:"json",
-			 data:{},
+			 data:{sellerUser_id:seller_id,user_id:####,pageCurrent:####},
 		     contentType:"application/json;charset=UTF-pe8",
 		     success:function(data){
 		    	 console.log(data);
 				 $("#seller_id").html(data.seller_id);
 		    	 $("#tradingRecord").append(
-				 "<td>"+data.name+
+				 "<td>"+data.skin+
 				 "</td><td>"+data.buyer_id+
 				 "</td><td>"+data.price+
+				 "</td><td>"+data.datetime+
 				 "</td>"
 				 );
 		     }
@@ -132,19 +133,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script type="text/javascript">
  $(document).ready(function(){
-	     let type = ;
-		 let skin = ;
-		 let quality = ;
 		 $.ajax({
-			 url:"/market/doFindPageObjects",
+			 url:"###",
 			 type:"get",
 			 datatype:"json",
-			 data:{type:###,skin:###,quality:###},
+			 data:{},
 		     contentType:"application/json;charset=UTF-pe8",
 		     success:function(data){
 		    	 console.log(data);
-				 $("#picture1").attr("src","########");
-				 $("#picture2").attr("src","########");
+				 $("#picture1").attr("src","########");<!--图片地址-->
+				 $("#picture2").attr("src","########");<!--图片地址-->
 		    	 $("#type").html(data.type);
 		    	 $("#name").html(data.name);
 				 $("#price").html(date.price);
@@ -160,7 +158,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 let seller_id=$("#seller_id").html();
 		 let item_id=;
 		 let price=$("#price").html();
-		 let datetime=new date();
+		 let datetime = newDate();
 		 $.ajax({
 			 url:"/record/doInsertRecord",
 			 type:"get",
@@ -169,8 +167,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		     contentType:"application/json;charset=UTF-8",
 		     success:function(data){
 		    	 console.log(data);
-				 alert("购买成功")
-				 window.location.href="Market.html";
+				 alert("data")
+		    	 window.location.href='Market.html';
 		     }
 		 })
    })

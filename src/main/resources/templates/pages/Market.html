@@ -118,7 +118,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
 
-<script type="text/javascript"><!--商品列表-->
+<script type="text/javascript">
  $(document).ready(function(){
 		 $.ajax({
 			 url:"/market/doFindPageObjects",
@@ -131,9 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 $("#box").empty();
 				 data.forEach(element => {
 				 			 $("#box").append(
-				                 "<a href='"+
-								 ########+
-								  "'>
+				                 "<a href='single.html'>
 	     	                        <div class='grid_1'>
 	     	                          <div class='b-link-stroke b-animate-go  thickbox'>
 		                                <img src='images/p1.jpg' class='img-responsive' alt=''/> </div>
@@ -152,24 +150,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  })
 </script>
 
-<script type="text/javascript"><!--搜索-->
+<script type="text/javascript">
 	$(document).ready(function(){
 		$("#searchBut").click(function(){
-			let searchType=${"#serchType"}.val();
-			let searchSkin=${"#serchSkin"}.val();
-			let searchQuality=${"#serchQuality"}.val();
+			let searchType=$("#serchType").val();
+			let searchSkin=$("#serchSkin").val();
+			let searchQuality=$("#serchQuality").val();
 			$.ajax({
-				url:"/market/doFindPageObjects";
-				type:"get";
-				datatype:"json";
+				url:"/market/doFindPageObjects",
+				type:"get",
+				datatype:"json",
 				data:{type:serchType,skin:serchSkin,quality:serchQuality},
 				contentType:"application/json;charset=UTF-pe8",
 				success:function(data){
 				data.forEach(element => {
 							 $("#box").append(
-				                "<a href='"+
-								########+
-								"'>
+				                "<a href='single.html'>
 				                   <div class='grid_1'>
 				                     <div class='b-link-stroke b-animate-go  thickbox'>
 				                       <img src='images/p1.jpg' class='img-responsive' alt=''/></div>
