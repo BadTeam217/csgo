@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Fashionpress Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="css/bootstrap1.css" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- Custom Theme files -->
+<link href="css/style1.css" rel='stylesheet' type='text/css' />
+<!-- Custom Theme files -->
+<!--webfont-->
+<link href='http://fonts.useso.com/css?family=Lato:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<div class="header">
+	<div class="header_top">
+		<div class="container">
+			<div class="logo">
+				<a href="Market.html"><img src="images/logo.png" alt=""/></a>
+			</div>
+			<ul class="shopping_grid">
+			      <a href="login.html"><li>登录</li></a>
+				  <a href="#"><li>个人信息</li></a>
+			      <div class="clearfix"> </div>
+			</ul>
+		    <div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+<div class="about">
+  <div class="container">
+         <div class="register">
+			   <div class="col-md-6 login-left"><!--注册-->
+			  	 <h3>新用户</h3>
+				 <p>如果没有账户，可以在此处新建用户</p>
+				 <a class="acount-btn" href="register.html">注册</a>
+			   </div>
+			   
+			   
+			   <div class="col-md-6 login-right"><!--登录-->
+			  	<h3>用户登录</h3>
+				<p>如果有账户，请在此处登录</p>
+				<form>
+				  <div>
+					<span>用户名</span>
+					<input id="account" type="text"> 
+				  </div>
+				  <div>
+					<span>密码</span>
+					<input id="password" type="text"> 
+				  </div>
+				  <input id="login" type="submit" value="登录">
+			    </form>
+			   </div>	
+			   <div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+
+<script type="text/javascript">
+    $("#login").click(function(){
+		let account = ${"#account"}.val();
+		let password = ${"#password"}.val();
+		$.ajax({
+			url:###,
+			type:"get";
+			dataType:"json",
+			data:{id:username,id:password},
+			contentType:"application/json;charset=UTF-pe8",
+            <!--验证是否登陆成功-->
+		})
+	})	
+</script>
+
+</html>		
