@@ -32,6 +32,7 @@ public class MarketServiceImpl implements MarketService {
 		// 查询当前页记录
 		long rowCount = marketDao.getRowCount(null);
 		int pageSize = 5;
+		long sum = pageSize;
 		long startIndex = (pageCurrent - 1) * pageSize;
 		List<MarketVo> results = marketDao.findPageObject(startIndex, rowCount);
 		List<MarketVo> records = new ArrayList<>();
@@ -49,8 +50,8 @@ public class MarketServiceImpl implements MarketService {
 				continue;
 			}
 			records.add(r);
-			pageSize--;
-			if (pageSize == 0)
+			sum--;
+			if (sum == 0)
 				break;
 		}
 		if (rowCount == 0)
