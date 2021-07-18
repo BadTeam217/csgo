@@ -9,12 +9,10 @@ import com.sc.vo.MarketVo;
 import java.util.List;
 
 public interface MarketService {
-
-
+	/** 查询所有商品 */
 	PageObject<MarketVo> findPageObject(Long pageCurrent, String type, String skin, String quality);
-	
-	PageObject<MarketVo> findPageObjectByPrice(Long pageCurrent);
 
+	PageObject<MarketVo> findPageObjectByPrice(Long pageCurrent);
 
 	public int putOnShelf(Market market);
 
@@ -24,6 +22,7 @@ public interface MarketService {
 
 	public Seller findSellerByItemId(Integer item_id);
 
-
+	/** 查询该用户上架的道具 */
+	PageObject<MarketVo> findPageObjectsOnShelf(Integer user_id, Long pageCurrent);
 
 }

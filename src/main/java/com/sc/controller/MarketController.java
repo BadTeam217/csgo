@@ -29,4 +29,10 @@ public class MarketController {
 		PageObject<MarketVo> result = marketService.findPageObject(pageCurrent, type, skin, quality);
 		return new JsonResult(result);
 	}
+
+	@RequestMapping("/doFindPageObjectsOnShelf")
+	public JsonResult doFindPageObjectsOnShelf(Integer user_id, Long pageCurrent) {
+		PageObject<MarketVo> result = marketService.findPageObjectsOnShelf(user_id, pageCurrent);
+		return new JsonResult(result);
+	}
 }

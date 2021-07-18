@@ -12,7 +12,7 @@
 
 	<resultMap id="MarketVo" type="com.sc.vo.MarketVo">
 		<association property="user" column="seller_id"
-			select="com.sc.dao.SellerDao.findUserBySeller"></association>
+			select="com.sc.dao.SellerDao.findUserBySellerId"></association>
 		<association property="item" column="item_id"
 			select="com.sc.dao.ItemDao.findObjectById"></association>
 	</resultMap>
@@ -33,6 +33,18 @@
 		from market
 		order by
 		price,datetime desc
+		limit
+		#{startIndex},#{pageSize}
+	</select>
+
+	<select id="findPageObjectOnShelf" resultMap="MarketVo">
+		select
+		seller_id,item_id,price,datetime
+		from market
+		where
+		seller_id=#{seller_id}
+		order by
+		datetime desc
 		limit
 		#{startIndex},#{pageSize}
 	</select>
@@ -63,6 +75,15 @@
 		select seller_id from market
 		where item_id=#{item_id}
 		)
+	</select>
+
+	<select id="getRowCount" resultType="long">
+		select count(*) from record
+		<where>
+			<if test="seller_id!=null and seller_id!=''">
+				seller_id=#{seller_id}
+			</if>
+		</where>
 	</select>
 
 </mapper>

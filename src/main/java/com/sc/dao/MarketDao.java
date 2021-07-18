@@ -25,6 +25,7 @@ public interface MarketDao {
 
 	List<MarketVo> findPageObjectByPrice(long startIndex, long pageSize);
 
-	@Select("select count(*) from market")
-	long getRowCount();
+	long getRowCount(Integer seller_id);
+
+	List<MarketVo> findPageObjectOnShelf(Integer seller_id, long startIndex, int pageSize);
 }
