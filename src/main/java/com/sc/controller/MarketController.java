@@ -35,22 +35,31 @@ public class MarketController {
 	}
 
 	@PostMapping("doPutOnShelf")
-	public String putOnShelf(Market market){
+	public String putOnShelf(Market market) {
 		int result = marketService.putOnShelf(market);
 		String r = null;
-		if (result == -1){
+		if (result == -1) {
 			r = ResponseMsgUtil.getResult("NotExist");
-		}else r = ResponseMsgUtil.getResult(result);
+		} else
+			r = ResponseMsgUtil.getResult(result);
 		return r;
 	}
 
 	@PostMapping("doOffShelf")
-	public String offShelf(Market market){
+	public String offShelf(Market market) {
 		int result = marketService.offShelf(market);
 		String r = null;
-		if (result == -1){
+		if (result == -1) {
 			r = ResponseMsgUtil.getResult("NotExist");
-		}else r = ResponseMsgUtil.getResult(result);
+		} else
+			r = ResponseMsgUtil.getResult(result);
 		return r;
+	}
+
+	@RequestMapping("doFindPageObjectsOnShelf")
+	public JsonResult doFindPageObjectsOnShelf(Integer user_id, Long pageCurrent) {
+		PageObject<MarketVo> result = marketService.findPageObjectsOnShelf(user_id, pageCurrent);
+		return new JsonResult(result);
+
 	}
 }

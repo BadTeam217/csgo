@@ -109,7 +109,7 @@
 								<div class="table-page-x">
 									<div class="table-page-data">
 										共<output id="rowCount" class="table-page-total"></output>件道具, 每页最多显示
-										<output id="pageSize" href="javascript:"></output> 件
+										<output href="javascript:">5</output> 件
 									</div>
 									<div class="table-page">
 										<output id="lastPage">上一页</output>
@@ -121,6 +121,7 @@
 								</div>
 							</div>
 
+							<!-- 上架按钮弹窗 -->
 							<div id="load_bullet" style="display: none;">
 								<input class="ui-input" id="price">
 							</div>
@@ -159,7 +160,7 @@
 								<div class="table-page-x">
 									<div class="table-page-data">
 										共<output id="loaded-rowCount" class="table-page-total"></output>件道具, 每页最多显示
-										<output id="loaded-pageSize" href="javascript:"></output> 件
+										<output href="javascript:">5</output> 件
 									</div>
 									<div class="table-page">
 										<output id="loaded-lastPage">上一页</output>
@@ -170,6 +171,9 @@
 									</div>
 
 								</div>
+							</div>
+
+							<div id="offShelf_bullet" style="display: none;">
 							</div>
 						</div>
 					</div>
@@ -296,6 +300,7 @@
 
 		$(document).ready(function () {
 			doGetItems();
+			doGetLoadedItems();
 			doGetSellerId(user_id);
 		})
 
@@ -342,7 +347,6 @@
 					res = result;
 					pageCount = res.data.pageCount;
 					rowCount = res.data.rowCount;
-					pageSize = res.data.pageSize;
 					itemList = $.extend(true, [], result.data.records);
 					doClearEl("#itemBody");
 					doSetItems(itemList);
@@ -376,7 +380,6 @@
 					res = result;
 					pageCount = res.data.pageCount;
 					rowCount = res.data.rowCount;
-					pageSize = res.data.pageSize;
 					itemList = $.extend(true, [], result.data.records);
 					doClearEl("#itemBody");
 					doSetItems(itemList);
@@ -409,7 +412,6 @@
 			$("#pageCurrent").val(pageCurrent);
 			$("#rowCount").val(rowCount);
 			$("#pageCount").val(pageCount);
-			$("#pageSize").val(pageSize);
 		}
 
 		function doSetItems(data) {
@@ -436,7 +438,10 @@
 			return timg;
 		}
 
-
+		function doCreateUnLoadButton(data) {
+			var tbtn = "<input type='button' value='上架' class='ui-button load' data-type='success' item_id=" + data + ">";
+			return tbtn;
+		}
 
 		function doClearEl(el) {
 			$(el).empty();
@@ -489,8 +494,9 @@
 					datetime: datetime
 				},
 				success: function (result) {
-					pageCount = 1;
+					pageCurrent = 1;
 					doGetItems();
+					doGetLoadedItems();
 				}
 			})
 		}
@@ -500,6 +506,10 @@
 		}
 
 		//已上架道具
+		var loaded_pageCurrent, loaded_type, loaded_skin,
+			loaded_quality, loaded_rowCount, loaded_pageCount, loaded_pageSize;
+		var loaded_itemList, loaded_res;
+
 		function doCreateLoadedButton(data) {
 			var tbtn = "<input type='button' value='下架' class='ui-button unload' data-type='danger' item_id=" + data + ">";
 			return tbtn;
@@ -514,10 +524,85 @@
 			}
 		}
 
+		function doGetLoadedItems() {
+			if (loaded_pageCurrent == null) {
+				loaded_pageCount = 1;
+			}
+
+			$.ajax({
+				url: "market/doFindPageObjectsOnShelf",
+				type: "get",
+				dataType: "JSON",
+				data: {
+					user_id: user_id,
+					pageCurrent: loaded_pageCount,
+				},
+				success: function (result) {
+					loaded_itemList = [];
+					loaded_res = result;
+					loaded_pageCount = loaded_res.data.pageCount;
+					loaded_rowCount = loaded_res.data.rowCount;
+					loaded_itemList = $.extend(true, [], result.data.records);
+					doClearEl("#loaded-itemBody");
+					doSetLoadedItems(loaded_itemList);
+					doShowLoadedPageInfo();
+				},
+				error: function (result) {
+					console.log(result.message);
+				}
+			})
+		}
+
+		function doShowLoadedPageInfo() {
+			if (loaded_pageCurrent == null) {
+				loaded_pageCurrent = 1;
+			}
+			$("#loaded-pageCurrent").val(loaded_pageCurrent);
+			$("#loaded-rowCount").val(loaded_rowCount);
+			$("#loaded-pageCount").val(loaded_pageCount);
+		}
+
 		//下架
-		function doCreateUnLoadButton(data) {
-			var tbtn = "<input type='button' value='上架' class='ui-button load' data-type='success' item_id=" + data + ">";
-			return tbtn;
+		var offShelf_bullet;
+		var eleOffBullet = document.getElementById('offShelf_bullet');
+		$("#loaded-itemBody").on("click", "input", function () {
+			item_id = getItemIdByButton(this);
+
+			if (offShelf_bullet) {
+				offShelf_bullet.show();
+			} else {
+				eleOffBullet.style.display = 'block';
+
+				offShelf_bullet = new Dialog({
+					title: "确定下架吗？",
+					content: eleOffBullet,
+					buttons: [{
+						events: function (event) {
+							doOffShelf();
+							event.dialog.hide();
+						},
+						className: "confirm_off"
+					}, {}],
+					height: 180
+				});
+			}
+		});
+
+		function doOffShelf() {
+			$.ajax({
+				url: "market/doOffShelf",
+				type: "post",
+				dataType: "json",
+				data: {
+					seller_id: seller_id,
+					item_id: item_id
+				},
+				success: function (result) {
+					loaded_pageCurrent = 1;
+					doGetItems();
+					doGetLoadedItems();
+				}
+			})
 		}
 
 		//修改信息
@@ -532,7 +617,6 @@
 		})
 
 		function doUpadateInfo(el) {
-			debugger
 			$.ajax({
 				url: "user/update",
 				type: "put",

@@ -61,17 +61,18 @@ public class MarketServiceImpl implements MarketService {
 	@Override
 	@Transactional
 	public int putOnShelf(Market market) {
-		if (market.getItem_id() !=null && market.getSeller_id() != null && market.getPrice() != null && market.getDatetime() != null){
+		if (market.getItem_id() != null && market.getSeller_id() != null && market.getPrice() != null
+				&& market.getDatetime() != null) {
 			if (stockDao.findStockByItemAndUser(
 					sellerDao.findUserBySeller(sellerDao.findSellerBySellerId(market.getSeller_id())).getId(),
-					market.getItem_id()) != null){
-				//确保仓库中有该物品
+					market.getItem_id()) != null) {
+				// 确保仓库中有该物品
 				int result = marketDao.insert(market);
-				//上架时从仓库移除该物品
+				// 上架时从仓库移除该物品
 				stockDao.delete(market.getItem_id());
 				return result;
-			}else return -1;
-
+			} else
+				return -1;
 
 		}
 		return 0;
@@ -80,15 +81,16 @@ public class MarketServiceImpl implements MarketService {
 	@Override
 	@Transactional
 	public int offShelf(Market market) {
-		if (market.getItem_id() != null && market.getSeller_id() != null){
-			if (marketDao.findMarketBYItem(market.getItem_id()) != null){
+		if (market.getItem_id() != null && market.getSeller_id() != null) {
+			if (marketDao.findMarketBYItem(market.getItem_id()) != null) {
 				Seller seller = sellerDao.findSellerBySellerId(market.getSeller_id());
 				User user = sellerDao.findUserBySeller(seller);
-				//下架时往仓库添加该物品
+				// 下架时往仓库添加该物品
 				stockDao.insert(new Stock(user.getId(), market.getItem_id()));
 				int result = marketDao.delete(market);
-				return  result;
-			}else return -1;
+				return result;
+			} else
+				return -1;
 
 		}
 		return 0;
@@ -96,7 +98,7 @@ public class MarketServiceImpl implements MarketService {
 
 	@Override
 	public List<Item> findItemsBySellerId(Integer seller_id) {
-		if (seller_id != null){
+		if (seller_id != null) {
 			List<Item> items = marketDao.findItemsBySellerId(seller_id);
 			return items;
 		}
@@ -105,7 +107,7 @@ public class MarketServiceImpl implements MarketService {
 
 	@Override
 	public Seller findSellerByItemId(Integer item_id) {
-		if (item_id != null){
+		if (item_id != null) {
 			return marketDao.findSellerByItemId(item_id);
 		}
 		return null;
@@ -120,6 +122,21 @@ public class MarketServiceImpl implements MarketService {
 		long startIndex = (pageCurrent - 1) * pageSize;
 		List<MarketVo> records = marketDao.findPageObjectByPrice(startIndex, pageSize);
 		long rowCount = records.size();
+		// 封装查询结果
+		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
+	}
+
+	@Override
+	public PageObject<MarketVo> findPageObjectsOnShelf(Integer user_id, Long pageCurrent) {
+		// 参数校验
+		if (pageCurrent == null || pageCurrent < 1)
+			throw new IllegalArgumentException("当前页码值无效");
+		// 查询当前页记录
+		int pageSize = 5;
+		long startIndex = (pageCurrent - 1) * pageSize;
+		Seller seller = sellerDao.findSellerByUserId(user_id);
+		List<MarketVo> records = marketDao.findPageObjectOnShelf(seller.getId(), startIndex, pageSize);
+		long rowCount = marketDao.getRowCount(seller.getId());
 		// 封装查询结果
 		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
 	}
