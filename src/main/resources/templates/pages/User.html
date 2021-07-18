@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>用户</title>
+	<link rel="stylesheet" href="css/ui.css" type="text/css" />
+	<link rel="stylesheet" href="css/color.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/Table.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/all.js"></script>
+	<script src="js/Table.js"></script>
+
+</head>
+
+<body>
+	<div id="wrapper">
+		<div class="overlay" style="display: none;"></div>
+		<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+			<ul class="nav sidebar-nav">
+				<li class="sidebar-brand"> <a href=""> 目录 </a> </li>
+				<li> <a id="showItem"> <i class="fa fa-fw fa-home"> </i> 主页 </a> </li>
+				<li> <a> <i class="fa fa-fw fa-bank"> </i> 市场 </a> </li>
+				<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-fw fa-plus"></i> 个人信息 <span class="caret"> </span> </a>
+					<ul class="dropdown-menu" role="menu">
+						<li class="dropdown-header"> </li>
+						<li> <a id="updateInfo"> 修改信息 </a> </li>
+					</ul>
+				</li>
+				<li><a id="logout" href="logout"><i class="fa fa-fw fa-folder"></i>登出</a></li>
+			</ul>
+		</nav>
+
+		<div id="page-content-wrapper">
+			<button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+				<span class="hamb-top"></span>
+				<span class="hamb-middle"></span>
+				<span class="hamb-bottom"></span>
+			</button>
+
+			<div class="container">
+				<div class="row">
+					<div>
+						<div>
+							<div>用户:</div>
+							<div>
+								<span id="userId" th:text="${session.USER.name}"
+									th:attr="data-id=${session.USER.id},data-account=${session.USER.account}"></span>
+							</div>
+						</div>
+						<hr>
+
+						<div id="user_item">
+							道具：<div style="text-align:right;">
+								<p>
+									种类：<select id="type">
+										<option></option>
+										<option>手枪</option>
+										<option>步枪</option>
+										<option>冲锋枪</option>
+										<option>霰弹枪</option>
+										<option>狙击枪</option>
+									</select>
+									皮肤：<select id="skin">
+										<option></option>
+										<option>巨龙传说</option>
+										<option>女火神</option>
+										<option>阿木木</option>
+										<option>水蓝蓝</option>
+										<option>火红红</option>
+									</select>
+									品质：<select id="quality">
+										<option></option>
+										<option>金色</option>
+										<option>紫色</option>
+										<option>蓝色</option>
+										<option>绿色</option>
+										<option>白色</option>
+									</select>
+									<input id="search" type="button" class="ui-button" value="搜索" data-type="primary">
+								</p>
+							</div>
+							<div class="table-x">
+								<table class="ui-table" id="mixTable">
+									<thead>
+										<tr>
+											<th>id</th>
+											<th>图片</th>
+											<th>种类</th>
+											<th>皮肤</th>
+											<th>品质</th>
+										</tr>
+									</thead>
+									<tbody id="itemBody">
+									</tbody>
+								</table>
+								<div class="table-page-x">
+									<div class="table-page-data">
+										共<output id="rowCount" class="table-page-total"></output>件道具, 每页最多显示
+										<output id="pageSize" href="javascript:"></output> 件
+									</div>
+									<div class="table-page">
+										<output id="lastPage">上一页</output>
+										<output id="pageCurrent"></output>
+										<output id="nextPage">下一页</output>
+										<div style="text-align: center;">共<output id="pageCount"></output>页</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+						<div id="updateInfo_form" style="display:none;text-align: center;">
+							<fieldset>
+								<legend>修改信息</legend>
+								<form id="update_form" method="POST" action="">
+									<h5>用户名:<input name="name" id="username" class="ui-input" required /></h5><br />
+									<h5>新密码:<input name="password" id="password" class="ui-input" required /></h5><br />
+									<input id="update" type="button" value="修改" class="ui-button" data-type="primary" />
+								</form>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 初始化插件 -->
+	<script>
+		$(document).ready(function () {
+			var trigger = $('.hamburger'),
+				overlay = $('.overlay'),
+				isClosed = false;
+
+			trigger.click(function () {
+				hamburger_cross();
+			});
+
+			function hamburger_cross() {
+				if (isClosed == true) {
+					overlay.hide();
+					trigger.removeClass('is-open');
+					trigger.addClass('is-closed');
+					isClosed = false;
+				} else {
+					overlay.show();
+					trigger.removeClass('is-closed');
+					trigger.addClass('is-open');
+					isClosed = true;
+				}
+			}
+			$('[data-toggle="offcanvas"]').click(function () {
+				$('#wrapper').toggleClass('toggled');
+			});
+		});
+
+		var eleBtnSearch = document.getElementById("search");
+		eleBtnSearch.addEventListener('click', function () {
+			var eleAllInput = this.parentElement.querySelectorAll('#search_box');
+
+			eleAllInput.forEach(function (input, index) {
+				if (input.value == '') {
+					new ErrorTip(input, '尚未输入搜索内容', {
+						unique: false
+					});
+				}
+			});
+		});
+
+		var eleBtnSearch = document.getElementById("update");
+		eleBtnSearch.addEventListener('click', function () {
+			var eleAllInput = this.parentElement.querySelectorAll('input');
+
+			eleAllInput.forEach(function (input, index) {
+				if (input.value == '') {
+					new ErrorTip(input, '尚未输入内容', {
+						unique: false
+					});
+				}
+			});
+		});
+	</script>
+	<script>
+		//视图切换
+		$("#showItem").click(function () {
+			$("#user_item").show();
+			$("#updateInfo_form").hide();
+			$("#updatePwd_form").hide();
+		});
+
+		$("#updateInfo").click(function () {
+			$("#updateInfo_form").show();
+			$("#user_item").hide();
+			$("#updatePwd_form").hide();
+		});
+
+		//道具
+		var account = $("#userId").data("account");
+		var user_id = $("#userId").data("id");
+		var pageCurrent, type, skin, quality, rowCount, pageCount, pageSize;
+		var itemList, res;
+
+		$(document).ready(function () {
+			doGetItems();
+		})
+
+		$("#search").click(function () {
+			type = $("#type").val();
+			skin = $("#skin").val();
+			quality = $("#quality").val();
+			doSearchItems(type, skin, quality);
+		})
+
+		$("#lastPage").click(function () {
+			if (pageCurrent == 1) {
+				alert("已经是第一页了");
+			} else {
+				pageCurrent--;
+				doGetItems();
+			}
+		})
+
+		$("#nextPage").click(function () {
+			if (pageCurrent == pageCount) {
+				alert("已经是最后一页了");
+			} else {
+				pageCurrent++;
+				doGetItems();
+			}
+		})
+
+		function doGetItems() {
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+
+			$.ajax({
+				url: "stock/doFindPageObjects",
+				type: "get",
+				dataType: "JSON",
+				data: {
+					user_id: user_id,
+					pageCurrent: pageCurrent,
+				},
+				success: function (result) {
+					itemList = [];
+					res = result;
+					pageCount = res.data.pageCount;
+					rowCount = res.data.rowCount;
+					pageSize = res.data.pageSize;
+					itemList = $.extend(true, [], result.data.records);
+					doClearEl("#itemBody");
+					doSetItems(itemList);
+					doShowPageInfo();
+				},
+				error: function (result) {
+					console.log(result.message);
+				}
+			})
+		}
+
+		function doSearchItems(type, skin, quality) {
+
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+
+			$.ajax({
+				url: "stock/doFindPageObjects",
+				type: "get",
+				dataType: "JSON",
+				data: {
+					user_id: user_id,
+					pageCurrent: pageCurrent,
+					type: type,
+					skin: skin,
+					quality: quality
+				},
+				success: function (result) {
+					itemList = [];
+					res = result;
+					pageCount = res.data.pageCount;
+					rowCount = res.data.rowCount;
+					pageSize = res.data.pageSize;
+					itemList = $.extend(true, [], result.data.records);
+					doClearEl("#itemBody");
+					doSetItems(itemList);
+					doShowPageInfo();
+				},
+				error: function (result) {
+					alert("找不到该物品！！！");
+				}
+			})
+		}
+
+		function doShowPageInfo() {
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+			$("#pageCurrent").val(pageCurrent);
+			$("#rowCount").val(rowCount);
+			$("#pageCount").val(pageCount);
+			$("#pageSize").val(pageSize);
+		}
+
+		function doSetItems(data) {
+			for (const d of data) {
+				$("#itemBody").append(doCreateTr(doCreateTd(d.item.id) +
+					doCreateTd(doCreateImg(d.item.id)) + doCreateTd(d.item.type) +
+					doCreateTd(d.item.skin) + doCreateTd(d.item.quality)));
+			}
+		}
+
+		function doCreateTr(data) {
+			var ttr = "<tr>" + data + "</tr>";
+			return ttr;
+		}
+
+		function doCreateTd(data) {
+			var ttd = "<td>" + data + "</td>";
+			return ttd;
+		}
+
+		function doCreateImg(data) {
+			var timg = "<img src='picture/" + data + ".jpeg'/>";
+			return timg;
+		}
+
+		function doClearEl(el) {
+			$(el).empty();
+		}
+
+		//修改信息
+
+
+		$("#update").click(function () {
+			var user = {
+				id: user_id,
+				name: $("#username").val(),
+				password: $("#password").val(),
+				account: account
+			};
+			doUpadateInfo(user);
+		})
+
+		function doUpadateInfo(el) {
+			debugger
+			$.ajax({
+				url: "user/update",
+				type: "put",
+				dataType: "json",
+				data: el,
+				success: function (result) {
+					alert(result.result);
+					$("#username").val("");
+					$("#password").val("");
+				}
+			})
+		}
+
+	</script>
+</body>
+
+</html>

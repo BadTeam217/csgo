@@ -77,6 +77,13 @@
 		)
 	</select>
 
+
+	<select id="findMarketBYItem" resultType="market">
+		select *
+		from market
+		where item_id=#{item_id}
+	</select>
+
 	<select id="getRowCount" resultType="long">
 		select count(*) from record
 		<where>
@@ -85,5 +92,4 @@
 			</if>
 		</where>
 	</select>
-
 </mapper>

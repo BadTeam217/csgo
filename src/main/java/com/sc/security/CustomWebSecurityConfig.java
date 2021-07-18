@@ -32,20 +32,20 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf()
 		.disable()
 		.authorizeRequests()
-		.antMatchers("/*").permitAll();
+		.antMatchers("/*").permitAll().and()
 //		.hasAnyRole("USER")
 //		.anyRequest()
 //		.authenticated()
 //		.and()
-//		.formLogin()
-//		.successForwardUrl("/doIndexUI")
-//		.permitAll()
-//		.and()
-//		.logout()
-//		.permitAll()
-//		.and()
-//		.exceptionHandling()
-//		.accessDeniedHandler(accessDeniedHandler)
+		.formLogin()
+		.successForwardUrl("/doIndexUI")
+		.permitAll()
+		.and()
+		.logout()
+		.permitAll()
+		.and()
+		.exceptionHandling()
+		.accessDeniedHandler(accessDeniedHandler);
 
 	}
 

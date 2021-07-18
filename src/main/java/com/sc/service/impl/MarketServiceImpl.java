@@ -13,6 +13,7 @@ import com.sc.common.vo.PageObject;
 import com.sc.dao.MarketDao;
 import com.sc.service.MarketService;
 import com.sc.vo.MarketVo;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MarketServiceImpl implements MarketService {
@@ -58,27 +59,37 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
+	@Transactional
 	public int putOnShelf(Market market) {
 		if (market.getItem_id() != null && market.getSeller_id() != null && market.getPrice() != null
 				&& market.getDatetime() != null) {
-			// 上架时从仓库移除该物品
-			int result = marketDao.insert(market);
-			stockDao.delete(market.getItem_id());
-			return result;
+			if (stockDao.findStockByItemAndUser(
+					sellerDao.findUserBySeller(sellerDao.findSellerBySellerId(market.getSeller_id())).getId(),
+					market.getItem_id()) != null) {
+				// 确保仓库中有该物品
+				int result = marketDao.insert(market);
+				// 上架时从仓库移除该物品
+				stockDao.delete(market.getItem_id());
+				return result;
+			} else
+				return -1;
 		}
 		return 0;
 	}
 
 	@Override
+	@Transactional
 	public int offShelf(Market market) {
-		if (market.getItem_id() != null && market.getSeller_id() != null && market.getPrice() != null
-				&& market.getDatetime() != null) {
-			// 下架时往仓库添加该物品
-			Seller seller = sellerDao.findSellerBySellerId(market.getSeller_id());
-			User user = sellerDao.findUserBySellerId(seller.getId());
-			stockDao.insert(new Stock(user.getId(), market.getItem_id()));
-			int result = marketDao.delete(market);
-			return result;
+		if (market.getItem_id() != null && market.getSeller_id() != null) {
+			if (marketDao.findMarketBYItem(market.getItem_id()) != null) {
+				Seller seller = sellerDao.findSellerBySellerId(market.getSeller_id());
+				User user = sellerDao.findUserBySeller(seller);
+				// 下架时往仓库添加该物品
+				stockDao.insert(new Stock(user.getId(), market.getItem_id()));
+				int result = marketDao.delete(market);
+				return result;
+			} else
+				return -1;
 		}
 		return 0;
 	}

@@ -17,4 +17,6 @@ public interface SellerDao {
 
 	@Select("select * from seller where user_id=#{user_id}")
 	Seller findSellerByUserId(Integer user_id);
+
+	User findUserBySeller(Seller seller);
 }

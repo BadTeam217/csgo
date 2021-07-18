@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.sc.pojo.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
 public class UserDaoTests {
@@ -18,19 +18,36 @@ public class UserDaoTests {
 	@Test
 	public void testInsert() {
 		User user = new User();
-		user.setAccount("21704");
-		user.setName("欧金金");
-		user.setPassword(new BCryptPasswordEncoder().encode("21704"));
+		user.setAccount("21703");
+		user.setName("火红红");
+		user.setPassword(new BCryptPasswordEncoder().encode("21703"));
 		int result = userDao.insertObject(user);
 		System.out.println(result);
 	}
+
 	@Test
-	void insert(){
+	void insert() {
 		User user = new User();
 		user.setAccount("123456");
 		user.setName("张三");
 		user.setPassword(passwordEncoder.encode("123456"));
 		userDao.insertObject(user);
 		System.out.println(user);
+	}
+
+	@Test
+	void findUserByAccount() {
+		System.out.println(userDao.findUserByAccount("21704"));
+	}
+
+	@Test
+	void update(){
+		User user = new User();
+		user.setAccount("123456");
+		user.setName("哈哈");
+		user.setPassword(passwordEncoder.encode("123456"));
+		user.setId(6);
+		System.out.println(userDao.update(user));
+
 	}
 }
