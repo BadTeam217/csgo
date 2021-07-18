@@ -15,7 +15,11 @@ public class StockServiceTests {
 
 	@Test
 	public void testFindPageObjects() {
+<<<<<<< HEAD
 		PageObject<UserItemVo> r = stockService.findPageObjects(1, 1L, null, null, "金色");
+=======
+		PageObject<UserItemVo> r = stockService.findPageObjects(1, 1L, null, null, "红色");
+>>>>>>> woshinidiedeyeye
 		System.out.println(r);
 	}
 }

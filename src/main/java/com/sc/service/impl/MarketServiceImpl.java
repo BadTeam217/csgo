@@ -32,11 +32,11 @@ public class MarketServiceImpl implements MarketService {
 		// 查询当前页记录
 		long rowCount = marketDao.getRowCount();
 		int pageSize = 5;
+		long sum = pageSize;
 		long startIndex = (pageCurrent - 1) * pageSize;
-		List<MarketVo> results = marketDao.findPageObject(startIndex, pageSize);
+		List<MarketVo> results = marketDao.findPageObject(startIndex, rowCount);
 		List<MarketVo> records = new ArrayList<>();
 		for (MarketVo r : results) {
-			boolean flag = true;
 			if (type != null && r.getItem().getType().indexOf(type) == -1) {
 				rowCount--;
 				continue;
@@ -49,8 +49,10 @@ public class MarketServiceImpl implements MarketService {
 				rowCount--;
 				continue;
 			}
-			if (flag)
-				records.add(r);
+			records.add(r);
+			sum--;
+			if (sum == 0)
+				break;
 		}
 		if (rowCount == 0)
 			throw new IllegalArgumentException("无记录");
@@ -73,7 +75,6 @@ public class MarketServiceImpl implements MarketService {
 				return result;
 			} else
 				return -1;
-
 		}
 		return 0;
 	}
@@ -91,7 +92,6 @@ public class MarketServiceImpl implements MarketService {
 				return result;
 			} else
 				return -1;
-
 		}
 		return 0;
 	}
@@ -113,6 +113,7 @@ public class MarketServiceImpl implements MarketService {
 		return null;
 	}
 
+	@Override
 	public PageObject<MarketVo> findPageObjectByPrice(Long pageCurrent) {
 		// 参数校验
 		if (pageCurrent == null || pageCurrent < 1)
