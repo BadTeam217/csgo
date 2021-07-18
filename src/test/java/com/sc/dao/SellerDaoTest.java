@@ -7,15 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class SellerDaoTest {
-    @Autowired
-    SellerDao sellerDao;
-    @Test
-    void insert(){
-        System.out.println(sellerDao.insert(new Seller(1, 1)));
-    }
+	@Autowired
+	SellerDao sellerDao;
 
-    @Test
-    void findUserBySeller(){
-        System.out.println(sellerDao.findUserBySeller(new Seller(1, 1)));
-    }
+	@Test
+	void insert() {
+		System.out.println(sellerDao.insert(new Seller(1, 1)));
+	}
+
 }

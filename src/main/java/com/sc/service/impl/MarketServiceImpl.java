@@ -33,10 +33,9 @@ public class MarketServiceImpl implements MarketService {
 		long rowCount = marketDao.getRowCount(null);
 		int pageSize = 5;
 		long startIndex = (pageCurrent - 1) * pageSize;
-		List<MarketVo> results = marketDao.findPageObject(startIndex, pageSize);
+		List<MarketVo> results = marketDao.findPageObject(startIndex, rowCount);
 		List<MarketVo> records = new ArrayList<>();
 		for (MarketVo r : results) {
-			boolean flag = true;
 			if (type != null && r.getItem().getType().indexOf(type) == -1) {
 				rowCount--;
 				continue;
@@ -49,8 +48,10 @@ public class MarketServiceImpl implements MarketService {
 				rowCount--;
 				continue;
 			}
-			if (flag)
-				records.add(r);
+			records.add(r);
+			pageSize--;
+			if (pageSize == 0)
+				break;
 		}
 		if (rowCount == 0)
 			throw new IllegalArgumentException("无记录");
