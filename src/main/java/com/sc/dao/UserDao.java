@@ -21,6 +21,4 @@ public interface UserDao {
 
 	@Select("select * from user where account=#{account}")
 	User findUserByAccount(String account);
-
-	public int update(User user);
 }

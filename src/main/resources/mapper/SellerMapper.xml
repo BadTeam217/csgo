@@ -11,15 +11,12 @@
 		(#{user_id});
 	</insert>
 
-
 	<select id="findUserBySeller" parameterType="seller"
 		resultType="user">
 		select *
 		from user
 		where id = #{user_id}
 	</select>
-
-
 
 
 	<select id="findSellerBySellerId" parameterType="int"

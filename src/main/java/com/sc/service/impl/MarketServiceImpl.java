@@ -30,7 +30,7 @@ public class MarketServiceImpl implements MarketService {
 		if (pageCurrent == null || pageCurrent < 1)
 			throw new IllegalArgumentException("当前页码值无效");
 		// 查询当前页记录
-		long rowCount = marketDao.getRowCount(null);
+		long rowCount = marketDao.getRowCount();
 		int pageSize = 5;
 		long startIndex = (pageCurrent - 1) * pageSize;
 		List<MarketVo> results = marketDao.findPageObject(startIndex, pageSize);
@@ -71,6 +71,8 @@ public class MarketServiceImpl implements MarketService {
 				stockDao.delete(market.getItem_id());
 				return result;
 			}else return -1;
+
+
 		}
 		return 0;
 	}
@@ -87,13 +89,14 @@ public class MarketServiceImpl implements MarketService {
 				int result = marketDao.delete(market);
 				return  result;
 			}else return -1;
+
 		}
 		return 0;
 	}
 
 	@Override
 	public List<Item> findItemsBySellerId(Integer seller_id) {
-		if (seller_id != null) {
+		if (seller_id != null){
 			List<Item> items = marketDao.findItemsBySellerId(seller_id);
 			return items;
 		}
@@ -102,7 +105,7 @@ public class MarketServiceImpl implements MarketService {
 
 	@Override
 	public Seller findSellerByItemId(Integer item_id) {
-		if (item_id != null) {
+		if (item_id != null){
 			return marketDao.findSellerByItemId(item_id);
 		}
 		return null;
@@ -116,22 +119,7 @@ public class MarketServiceImpl implements MarketService {
 		int pageSize = 5;
 		long startIndex = (pageCurrent - 1) * pageSize;
 		List<MarketVo> records = marketDao.findPageObjectByPrice(startIndex, pageSize);
-		long rowCount = marketDao.getRowCount(null);
-		// 封装查询结果
-		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
-	}
-
-	@Override
-	public PageObject<MarketVo> findPageObjectsOnShelf(Integer user_id, Long pageCurrent) {
-		// 参数校验
-		if (pageCurrent == null || pageCurrent < 1)
-			throw new IllegalArgumentException("当前页码值无效");
-		// 查询当前页记录
-		int pageSize = 5;
-		long startIndex = (pageCurrent - 1) * pageSize;
-		Seller seller = sellerDao.findSellerByUserId(user_id);
-		List<MarketVo> records = marketDao.findPageObjectOnShelf(seller.getId(),startIndex, pageSize);
-		long rowCount = marketDao.getRowCount(seller.getId());
+		long rowCount = records.size();
 		// 封装查询结果
 		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
 	}

@@ -10,6 +10,8 @@ public interface BuyerDao {
 
 	public int insert(Buyer buyer);
 
+	public User findUserByBuyer(Buyer buyer);
+
 	public User findUserByBuyerId(Integer id);
 
 	@Select("select * from buyer where user_id=#{user_id}")
