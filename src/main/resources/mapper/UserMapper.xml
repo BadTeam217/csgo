@@ -11,7 +11,8 @@
 		values
 		(#{name},#{password},#{account})
 		<selectKey keyProperty="id" order="AFTER" resultType="int">
-			select last_insert_id()
+			select
+			last_insert_id()
 		</selectKey>
 	</insert>
 
@@ -19,10 +20,15 @@
 		update user
 		set
 		name=#{name},
-		password=#{password},
+		password=#{password}
 		where id=#{id}
 	</update>
 
+	<update id="update" parameterType="user">
+		update user
+		set name = #{name},password=#{password}
+		where id = #{id}
+	</update>
 
 
 </mapper>

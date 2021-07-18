@@ -464,18 +464,7 @@ html {
   background-color: #EAEAEF;
 }
 
-body p,
-body blockquote {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 body a {
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: underline;
-}
-
-body a:hover {
-  color: #ffffff;
 }
 
 .col-xs-1,
