@@ -14,4 +14,6 @@ public interface SellerDao {
 	User findUserBySellerId(Integer id);
 
 	public Seller findSellerBySellerId(Integer seller_id);
+	
+	public Integer findSellerIdByIuserId(Integer user_id);
 }

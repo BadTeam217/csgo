@@ -249,6 +249,23 @@
 
 	</script>
 	<script>
+		/* 日期格式化 */
+		Date.prototype.Format = function (fmt) { //author: meizz   
+			var o = {
+				"M+": this.getMonth() + 1, //月份   
+				"d+": this.getDate(), //日   
+				"H+": this.getHours(), //小时   
+				"m+": this.getMinutes(), //分   
+				"s+": this.getSeconds(), //秒   
+				"q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+				"S": this.getMilliseconds() //毫秒   
+			};
+			if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+
 		//视图切换
 		/* 显示道具列表 */
 		$("#showItem").click(function () {
@@ -279,6 +296,7 @@
 
 		$(document).ready(function () {
 			doGetItems();
+			doGetSellerId(user_id);
 		})
 
 		$("#search").click(function () {
@@ -370,6 +388,20 @@
 			})
 		}
 
+		function doGetSellerId(data) {
+			$.ajax({
+				url: "seller/id",
+				type: "get",
+				dataType: "json",
+				data: {
+					user_id: data
+				},
+				success: function (result) {
+					seller_id = result.data;
+				}
+			})
+		}
+
 		function doShowPageInfo() {
 			if (pageCurrent == null) {
 				pageCurrent = 1;
@@ -416,10 +448,10 @@
 		//上架
 		/* 根据按钮获取其对应的道具id */
 		var setPrice_bullet;
+		var seller_id, item_id, price, datetime;
 		var eleItemBullet = document.getElementById('load_bullet');
 		$("#itemBody").on("click", "input", function () {
-			var item_id = getItemIdByButton(this);
-			console.log(item_id);
+			item_id = getItemIdByButton(this);
 
 			if (setPrice_bullet) {
 				setPrice_bullet.show();
@@ -433,7 +465,11 @@
 						events: function (event) {
 							doCheckPriceInput();
 							if ($("#price").val() != "") {
-								console.log("success");
+								price = $("#price").val();
+								$("#price").val("");
+								datetime = new Date().Format("yyyy-MM-dd HH:mm:ss");
+								doPutOnShelf();
+								
 								event.dialog.hide();
 							}
 						},
@@ -443,6 +479,24 @@
 				});
 			}
 		});
+
+		function doPutOnShelf() {
+			$.ajax({
+				url: "market/doPutOnShelf",
+				type: "post",
+				dataType: "json",
+				data: {
+					seller_id: seller_id,
+					item_id: item_id,
+					price: price,
+					datetime: datetime
+				},
+				success: function (result) {
+					pageCount = 1;
+					doGetItems();
+				}
+			})
+		}
 
 		function getItemIdByButton(data) {
 			return $(data).attr("item_id");

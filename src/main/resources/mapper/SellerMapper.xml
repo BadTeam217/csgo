@@ -23,7 +23,7 @@
 		resultType="seller">
 		select *
 		from seller
-		where seller_id = #{seller_id}
+		where id = #{seller_id}
 	</select>
 
 	<resultMap id="User" type="com.sc.pojo.User">
@@ -33,6 +33,11 @@
 	<select id="findUserBySellerId" resultMap="User">
 		select user_id from
 		seller where id=#{id}
+	</select>
+
+	<select id="findSellerIdByIuserId" parameterType="int"
+		resultType="int">
+		select id from seller where user_id=#{user_id}
 	</select>
 
 </mapper>
