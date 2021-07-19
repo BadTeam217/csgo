@@ -1,5 +1,7 @@
 package com.sc.controller;
 
+import com.sc.common.vo.PageObject;
+import com.sc.vo.RecordVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
