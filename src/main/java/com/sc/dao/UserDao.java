@@ -21,4 +21,7 @@ public interface UserDao {
 
 	@Select("select * from user where account=#{account}")
 	User findUserByAccount(String account);
+	
+	@Select("select * from user where id=#{id}")
+	User findUserByUserId(int id);
 }

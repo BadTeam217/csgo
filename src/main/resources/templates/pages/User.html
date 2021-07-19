@@ -27,8 +27,10 @@
 				<li class="sidebar-brand"> <a href=""> 目录 </a> </li>
 				<li> <a id="showItem"> <i class="fa fa-fw fa-home"> </i> 主页 </a> </li>
 				<li> <a id="showLoadedItem"> <i class="fa fa-fw fa-table"> </i> 已上架道具 </a> </li>
+
 				<li> <a href="marketinfo"> <i class="fa fa-fw fa-bank"> </i> 市场 </a> </li>
-				<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown">
+
+                <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown">
 						<i class="fa fa-fw fa-plus"></i> 个人信息 <span class="caret"> </span> </a>
 					<ul class="dropdown-menu" role="menu">
 						<li class="dropdown-header"> </li>
@@ -54,7 +56,7 @@
 						<div>
 							<div>用户:</div>
 							<div>
-								<span id="userId" th:text="${session.USER.name}"
+								<span id="userId"
 									th:attr="data-id=${session.USER.id},data-account=${session.USER.account}"></span>
 							</div>
 						</div>
@@ -95,7 +97,7 @@
 								<table class="ui-table">
 									<thead>
 										<tr>
-											<th>id</th>
+											<th hidden="hidden">id</th>
 											<th>图片</th>
 											<th>种类</th>
 											<th>皮肤</th>
@@ -123,7 +125,7 @@
 
 							<!-- 上架按钮弹窗 -->
 							<div id="load_bullet" style="display: none;">
-								<input class="ui-input" id="price">
+								<input type="number" step="0.1" class="ui-input" id="price">
 							</div>
 						</div>
 
@@ -146,12 +148,14 @@
 								<table class="ui-table">
 									<thead>
 										<tr>
-											<th>id</th>
+											<th hidden="hidden">id</th>
 											<th>图片</th>
 											<th>种类</th>
 											<th>皮肤</th>
 											<th>品质</th>
+											<th>价格</th>
 											<th>下架</th>
+											<th>修改价格</th>
 										</tr>
 									</thead>
 									<tbody id="loaded-itemBody">
@@ -172,7 +176,13 @@
 								</div>
 							</div>
 
+							<!-- 下架确认弹窗 -->
 							<div id="offShelf_bullet" style="display: none;">
+							</div>
+
+							<!-- 修改价格弹窗 -->
+							<div id="updatePrice_bullet" style="display: none;">
+								<input id="update_price" type="number" step="0.1" class="ui-input">
 							</div>
 						</div>
 					</div>
@@ -250,10 +260,24 @@
 			});
 		}
 
+		function doCheckPriceInputAgain() {
+			var eleBtnUpdate = document.getElementsByClassName("updatepr")[0];
+			eleBtnUpdate.addEventListener('click', function () {
+				var eleInput = document.getElementById("update_price");
+
+				if (eleInput.value == '') {
+					new ErrorTip(eleInput, '尚未输入内容', {
+						unique: false
+					});
+				}
+
+			});
+		}
+
 	</script>
 	<script>
 		/* 日期格式化 */
-		Date.prototype.Format = function (fmt) { //author: meizz   
+		Date.prototype.Format = function (fmt) {
 			var o = {
 				"M+": this.getMonth() + 1, //月份   
 				"d+": this.getDate(), //日   
@@ -295,12 +319,13 @@
 		var account = $("#userId").data("account");
 		var user_id = $("#userId").data("id");
 		var pageCurrent, type, skin, quality, rowCount, pageCount, pageSize;
-		var itemList, res;
+		var itemList, res, user_name;
 
 		$(document).ready(function () {
 			doGetItems();
 			doGetLoadedItems();
 			doGetSellerId(user_id);
+			getUserName();
 		})
 
 		$("#search").click(function () {
@@ -415,7 +440,7 @@
 
 		function doSetItems(data) {
 			for (const d of data) {
-				$("#itemBody").append(doCreateTr(doCreateTd(d.item.id) +
+				$("#itemBody").append(doCreateTr(doCreateHiddenTd(d.item.id) +
 					doCreateTd(doCreateImg(d.item.id)) + doCreateTd(d.item.type) +
 					doCreateTd(d.item.skin) + doCreateTd(d.item.quality) +
 					doCreateTd(doCreateUnLoadButton(d.item.id))));
@@ -425,6 +450,11 @@
 		function doCreateTr(data) {
 			var ttr = "<tr>" + data + "</tr>";
 			return ttr;
+		}
+
+		function doCreateHiddenTd(data) {
+			var thtd = "<td hidden='hidden'>" + data + "</td>";
+			return thtd;
 		}
 
 		function doCreateTd(data) {
@@ -514,18 +544,24 @@
 			return tbtn;
 		}
 
+		function doCreateUpdatePriceButton(data) {
+			var tubtn = "<input type='button' value='修改价格' class='ui-button updatePrice' data-type='warning' item_id=" + data + ">";
+			return tubtn;
+		}
+
 		function doSetLoadedItems(data) {
 			for (const d of data) {
-				$("#loaded-itemBody").append(doCreateTr(doCreateTd(d.item.id) +
+				$("#loaded-itemBody").append(doCreateTr(doCreateHiddenTd(d.item.id) +
 					doCreateTd(doCreateImg(d.item.id)) + doCreateTd(d.item.type) +
 					doCreateTd(d.item.skin) + doCreateTd(d.item.quality) +
-					doCreateTd(doCreateLoadedButton(d.item.id))));
+					doCreateTd(d.price) + doCreateTd(doCreateLoadedButton(d.item.id)) +
+					doCreateTd(doCreateUpdatePriceButton(d.item.id))));
 			}
 		}
 
 		function doGetLoadedItems() {
 			if (loaded_pageCurrent == null) {
-				loaded_pageCount = 1;
+				loaded_pageCurrent = 1;
 			}
 
 			$.ajax({
@@ -534,7 +570,7 @@
 				dataType: "JSON",
 				data: {
 					user_id: user_id,
-					pageCurrent: loaded_pageCount,
+					pageCurrent: loaded_pageCurrent,
 				},
 				success: function (result) {
 					loaded_itemList = [];
@@ -564,7 +600,7 @@
 		//下架
 		var offShelf_bullet;
 		var eleOffBullet = document.getElementById('offShelf_bullet');
-		$("#loaded-itemBody").on("click", "input", function () {
+		$("#loaded-itemBody").on("click", "input.unload", function () {
 			item_id = getItemIdByButton(this);
 
 			if (offShelf_bullet) {
@@ -604,6 +640,54 @@
 			})
 		}
 
+		//修改价格
+		var updatePrice_bullet;
+		var update_price;
+		var eleUpdateBullet = document.getElementById('updatePrice_bullet');
+		$("#loaded-itemBody").on("click", "input.updatePrice", function () {
+			item_id = getItemIdByButton(this);
+
+			if (updatePrice_bullet) {
+				updatePrice_bullet.show();
+			} else {
+				eleUpdateBullet.style.display = 'block';
+
+				updatePrice_bullet = new Dialog({
+					title: "修改价格",
+					content: eleUpdateBullet,
+					buttons: [{
+						events: function (event) {
+							doCheckPriceInputAgain();
+							if ($("#update_price").val() != "") {
+								update_price = $("#update_price").val();
+								$("#update_price").val("");
+								doUpdatePrice();
+								event.dialog.hide();
+							}
+						},
+						className: "updatepr"
+					}, {}],
+					height: 180
+				});
+			}
+		});
+
+		function doUpdatePrice() {
+			$.ajax({
+				url: "market/doUpdatePriceByKey",
+				type: "post",
+				dataType: "json",
+				data: {
+					user_id: user_id,
+					item_id: item_id,
+					price: update_price
+				},
+				success: function (result) {
+					doGetLoadedItems();
+				}
+			})
+		}
+
 		//修改信息
 		$("#update").click(function () {
 			var user = {
@@ -612,7 +696,11 @@
 				password: $("#password").val(),
 				account: account
 			};
-			doUpadateInfo(user);
+			if ($("#username").val() == '' || $("#password").val() == '') {
+
+			} else {
+				doUpadateInfo(user);
+			}
 		})
 
 		function doUpadateInfo(el) {
@@ -625,6 +713,20 @@
 					alert(result.result);
 					$("#username").val("");
 					$("#password").val("");
+					getUserName();
+				}
+			})
+		}
+		function getUserName() {
+			$.ajax({
+				url: "user/info",
+				type: "get",
+				dataType: "json",
+				data: { id: user_id },
+				success: function (result) {
+					console.log(result);
+					user_name = result.data.name;
+					$("#userId").html(user_name);
 				}
 			})
 		}

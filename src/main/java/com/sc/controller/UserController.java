@@ -44,6 +44,7 @@ public class UserController {
 		return ResponseMsgUtil.getResult(0);
 	}
 
+
 	@PutMapping("/update")
 	@ResponseBody
 	public String updateUser(User user) {
@@ -53,4 +54,12 @@ public class UserController {
 		} else
 			return ResponseMsgUtil.getResult("noVars");
 	}
+
+    
+    @GetMapping("/info")
+    @ResponseBody
+    public JsonResult findNameById(int id) {
+    	return new JsonResult(userService.findUserById(id));
+    }
+
 }

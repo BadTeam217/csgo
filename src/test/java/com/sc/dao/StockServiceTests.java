@@ -13,10 +13,12 @@ public class StockServiceTests {
 	@Autowired
 	private StockService stockService;
 
+
 	@Test
 	public void testFindPageObjects() {
 		PageObject<UserItemVo> r = stockService.findPageObjects(1, 1L, null, null, "红色");
 
 		System.out.println(r);
 	}
+
 }

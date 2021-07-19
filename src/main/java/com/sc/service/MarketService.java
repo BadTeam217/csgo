@@ -25,4 +25,6 @@ public interface MarketService {
 	/** 查询该用户上架的道具 */
 	PageObject<MarketVo> findPageObjectsOnShelf(Integer user_id, Long pageCurrent);
 
+	int updatePriceByKey(Integer user_id, Integer item_id, Double price);
+
 }

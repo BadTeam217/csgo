@@ -30,8 +30,8 @@ public class MarketServiceImpl implements MarketService {
 		if (pageCurrent == null || pageCurrent < 1)
 			throw new IllegalArgumentException("当前页码值无效");
 		// 查询当前页记录
-		long rowCount = marketDao.getRowCount();
-		int pageSize = 5;
+		long rowCount = marketDao.getRowCount(null);
+		int pageSize = 6;
 		long sum = pageSize;
 		long startIndex = (pageCurrent - 1) * pageSize;
 		List<MarketVo> results = marketDao.findPageObject(startIndex, rowCount);
@@ -140,6 +140,17 @@ public class MarketServiceImpl implements MarketService {
 		long rowCount = marketDao.getRowCount(seller.getId());
 		// 封装查询结果
 		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
+	}
+
+	@Override
+	public int updatePriceByKey(Integer user_id, Integer item_id, Double price) {
+		// 参数校验
+		if (price == null)
+			throw new IllegalArgumentException("未输入修改价格");
+		// 获取seller对象并更新价格
+		Seller seller = sellerDao.findSellerByUserId(user_id);
+		int rows = marketDao.updatePriceByKey(seller.getId(), item_id, price);
+		return rows;
 	}
 
 }
