@@ -38,15 +38,15 @@ public class MarketServiceImpl implements MarketService {
 		List<MarketVo> records = new ArrayList<>();
 		for (MarketVo r : results) {
 			if (type != null && r.getItem().getType().indexOf(type) == -1) {
-				rowCount--;
+				sum--;
 				continue;
 			}
 			if (skin != null && r.getItem().getSkin().indexOf(skin) == -1) {
-				rowCount--;
+				sum--;
 				continue;
 			}
 			if (quality != null && r.getItem().getQuality().indexOf(quality) == -1) {
-				rowCount--;
+				sum--;
 				continue;
 			}
 			records.add(r);

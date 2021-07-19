@@ -23,4 +23,24 @@ public class PageController {
 		return "login";
 
 	}
+	
+	@GetMapping("marketinfo")
+	public String market() {
+		return "Market";
+
+	}
+	
+	@RequestMapping("product")
+	public String single() {
+		return "single";
+
+	}
+	
+	@GetMapping("registerinfo")
+	public String register() {
+		return "register";
+
+	}
+	
+	
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 <title>Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,20 +13,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/style1.css" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
 <!--webfont-->
+<link rel="stylesheet" href="css/ui.css" type="text/css" />
+<link rel="stylesheet" href="css/color.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/Table.css">
 <link href='http://fonts.useso.com/css?family=Lato:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-<script src="js/responsiveslides.min.js"></script>
-<script>
-    $(function () {
-      $("#slider").responsiveSlides({
-      	auto: true,
-      	nav: true,
-      	speed: 500,
-        namespace: "callbacks",
-        pager: true,
-      });
-    });
-</script>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/responsiveslides.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/all.js"></script>
+	<script src="js/Table.js"></script>
+
 <script type="text/javascript" src="js/hover_pack.js"></script>
 </head>
 <body>
@@ -34,11 +33,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="header_top">
 		<div class="container">
 			<div class="logo">
-				<a href="Market.html"><img src="images/logo.png" alt=""/></a>
+				<a href="marketinfo"><img src="images/logo.png" alt=""/></a>
 			</div>
 			<ul class="shopping_grid">
-			      <a href="login.html"><li>登录</li></a>
-				  <a href="#"><li>个人信息</li></a>
+			      <a href="login"><li>登录</li></a>
+				  <a href="userinfo"><li>个人信息</li></a>
 			      <div class="clearfix"> </div>
 			</ul>
 		    <div class="clearfix"> </div>
@@ -59,32 +58,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <div class="column_center"><!--搜索框-->
 	<div class="search">
-	  <div class="stay">Search Product</div>
-	  <div class="stay_right">
-		  枪械种类：<select id="searchType">
-			  <option value="null" selected>请选择</option>
-			  <option value="手枪">手枪</option>
-			  <option value="步枪">步枪</option>
-			  <option value="冲锋枪">冲锋枪</option>
-			  <option value="霰弹枪">霰弹枪</option>
-			  <option value="机枪">机枪</option>
-		  </select>
-		  皮肤名称：<select id="searchSkin">
-			          <option value="null" selected>请选择</option>
-		  			  <option>次时代</option>
-		  			  <option>二西莫夫</option>
-		  			  <option>氮化处理</option>
-		  			  <option>沙漠</option>
-		  			  <option>森林</option>
-		  </select>
-		  皮肤品质：<select id="searchQuality">
-			          <option value="null" selected>请选择</option>
-		  			  <option value="普通">普通</option>
-		  			  <option value="稀有">稀有</option>
-		  			  <option value="传说">传说</option>
-		  </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		  <input type="submit" value="">
-	  </div>
+	  
+	 
 	  <div class="clearfix"> </div>
 	  </div>
     <div id="searchBut" class="clearfix"> </div>
@@ -92,8 +67,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="main"><!--商品列表页面-->
   <div class="content_top">
   	<div class="container">
-	   <div class="col-md-9 content_right">
-	    <div id="box" class="top_grid2">
+	   <div id="box" class="col-md-9 content_right">
+	    <div class="top_grid2">
 	     <div class="col-md-4 top_grid1-box1">
 		   <a href="single1.html"><!--商品1-->
 	     	<div class="grid_1">
@@ -116,109 +91,171 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	  </div>  	    
 	</div>
 </div>
-
-<div style="text-align: center;">
-	<output id="rowCount"></output>件道具, 每页最多显示
-	<output href="javascript:">5</output> 件
-	<button id="lastPage">上一页</button>
-	<button id="nextPage">下一页</button>
-	共<output id="pageCount"></output>页
-</div>
+                               <div style="text-align: center;">
+									<div>
+										共<output id="rowCount"></output>件道具, 每页最多显示<output href="javascript:">5</output> 件	
+									</div>
+									<div>
+										<output id="lastPage">上一页</output>
+										<output id="pageCurrent"></output>
+										<output id="nextPage">下一页</output>
+										<div>共 <output id="pageCount"></output> 页
+										</div>
+									</div>
+								</div>
+								
+<div id="userId" th:attr="data-id=${session.USER.id},data-account=${session.USER.account}"></div>
 
 <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</div>
 </body>
 
-<script type="text/javascript">
- $(document).ready(function(){
-	 
-		 $.ajax({
-			 url:"/market/doFindPageObjects",
-			 type:"get",
-			 datatype:"json",
-			 data:{pageCurrent:null,type:null,skin:null,quality:null},
-		     contentType:"application/json;charset=UTF-pe8",
-		     success:function(result){
-		    	 console.log(result);
-		    	 itemList =[];	
-				 res = result;
-				 pageCount = res.data.pageCount;
-				 rowCount = res.data.rowCount;
-				 itemList = $.extend(true,[],result.data.records);
-		    	 $("#box").empty();
-				 data.forEach(element => {
-				    $("#box").append(
-					"<div class='col-md-4 top_grid1-box1'> <a href = 'single.html?item_id="+element.item.id+"&type="+element.item.type+"&skin="+element.item.skin+"&quality="+element.item.quality+"&price="+element.price+"&seller_id="+element.user.id+"'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='"+images/"+element.item.id+".jpg+"' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + element.item.type +"</p><p id='skin'>"+ element.item.skin+"</p><p id='qulity'>"+ element.item.quality+"<ul class='grid_2-bottom'><li class='grid_2-left'><p>"+ element.price+"</p></li><p>￥</p><li class='grid_2-right'><div id='buyBut' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div>");
-				 })
-			 }
-     })
- })
-</script>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("#searchBut").click(function(){
-			let searchType=$("#serchType").val();
-			let searchSkin=$("#serchSkin").val();
-			let searchQuality=$("#serchQuality").val();
-			if(pageCurrent==null){pageCurrent=1;}
-			$.ajax({
-				url:"/market/doFindPageObjects",
-				type:"get",
-				datatype:"json",
-				data:{pageCurrent:pageCurrent,type:serchType,skin:serchSkin,quality:serchQuality},
-				contentType:"application/json;charset=UTF-pe8",
-				success:function(result){
-				console.log(result);
-				itemList =[];	
-				res = result;
-				pageCount = res.data.pageCount;
-				rowCount = res.data.rowCount;
-				itemList = $.extend(true,[],result.data.records);
-				$("#box").empty();
-				doshowPageInfo();
-				data.forEach(element => {
-					$("#box").append(
-					"<div class='col-md-4 top_grid1-box1'> <a href = 'single.html?item_id="+element.item.id+"&type="+element.item.type+"&skin="+element.item.skin+"&quality="+element.item.quality+"&price="+element.price+"&seller_id="+element.user.id+"'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='"+images/"+element.item.id+".jpg+"' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + element.item.type +"</p><p id='skin'>"+ element.item.skin+"</p><p id='qulity'>"+ element.item.quality+"<ul class='grid_2-bottom'><li class='grid_2-left'><p>"+ element.price+"</p></li><p>￥</p><li class='grid_2-right'><div id='buyBut' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div>");
+<script>
+			var account = $("#userId").data("account");
+			
+			var pageCurrent, type, skin, quality, rowCount, pageCount, pageSize;
+			var itemList, res;
+			
+			/* 日期格式化 */
+			Date.prototype.Format = function (fmt) { //author: meizz   
+				var o = {
+					"M+": this.getMonth() + 1, //月份   
+					"d+": this.getDate(), //日   
+					"H+": this.getHours(), //小时   
+					"m+": this.getMinutes(), //分   
+					"s+": this.getSeconds(), //秒   
+					"q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+					"S": this.getMilliseconds() //毫秒   
+				};
+				if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				for (var k in o)
+					if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				return fmt;
+			}
+			
+			$(document).ready(function (){
+				doGetItems();
+			})
+			
+			$("#search").click(function () {
+				type = $("#searchType").val();
+				skin = $("#searchSkin").val();
+				quality = $("#searchQuality").val();
+				doSearchItems(type, skin, quality);
+			})
+			
+			$("#lastPage").click(function () {
+				if (pageCurrent == 1) {
+					alert("已经是第一页了");
+				} else {
+					pageCurrent--;
+					doGetItems();
+				}
+			})
+			
+			$("#nextPage").click(function () {
+				if (pageCurrent == pageCount) {
+					alert("已经是最后一页了");
+				} else {
+					pageCurrent++;
+					doGetItems();
+				}
+			})
+			
+			function doGetItems() {
+				if (pageCurrent == null) {
+					pageCurrent = 1;
+				}
+			
+				$.ajax({
+					url: "market/doFindPageObjects",
+					type: "get",
+					dataType: "json",
+					data: {
+						pageCurrent: pageCurrent,
+						type:null,
+						skin:null,
+						quality:null
+					},
+					success: function (result) {
+						itemList = [];
+						res = result;
+						pageCount = res.data.pageCount;
+						rowCount = res.data.rowCount;
+						itemList = $.extend(true, [], result.data.records);
+						console.log(itemList);
+						doClearEl("#box");
+						doSetItems(itemList);
+						doShowPageInfo();
+					},
+					error: function (result) {
+						console.log(result.message);
+					}
 				})
 			}
-		})
-	})
-	
-	function doShowPageInfo() {
-			if (pageCurrent == null) {
-				pageCurrent = 1;
+			
+			function doShowPageInfo() {
+				if (pageCurrent == null) {
+					pageCurrent = 1;
+				}
+				$("#pageCurrent").val(pageCurrent);
+				$("#rowCount").val(rowCount);
+				$("#pageCount").val(pageCount);
 			}
-			$("#pageCurrent").val(pageCurrent);
-			$("#rowCount").val(rowCount);
-			$("#pageCount").val(pageCount);
-			$("#pageSize").val(pageSize);
-		}
-		
-		$("#lastPage").click(function () {
-			if (pageCurrent == 1) {
-				alert("已经是第一页了");
-			} else {
-				pageCurrent--;
-				doGetItems();
+			
+			function doSetItems(data){
+				var i = 0;
+				for (const d of data){
+					$("#box").append(
+						"<div class='top_grid2'><div class='col-md-4 top_grid1-box1'> <a href = 'single?item_id="+d.item.id+"&type="+d.item.type+"&skin="+d.item.skin+"&quality="+d.item.quality+"&price="+d.price+"&seller_id="+d.user.id+"'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='images/"+d.item.id+".png' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + d.item.type +"</p><p id='skin'>"+ d.item.skin+"</p><p id='qulity'>"+ d.item.quality+"</p><p id='seller_id' name='seller_id'>"+ d.user.id+"</p><ul class='grid_2-bottom'><li class='grid_2-left'><p id='price' name='price'>"+ d.price+"</p></li><p>￥</p></a><li class='grid_2-right'><button id='"+i+"' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It' type='button'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div></div>"	);
+				    i++;
+				}
 			}
-		})
+			
+			function doClearEl(el) {
+				$(el).empty();
+			}
+			
+			//购买
+			function getBtnId(obj){
+				var btnId = $(obj).attr("id");
+			}
+			
+			$("#box").on("click", "button", function () {
+			btnId = getBtnId(this);
+			BuyItem();
+			});
+			
+			function BuyItem() {
+				let seller_id = itemList[btnId].user.id;
+				let item_id = itemList[btnId].item.id;
+				var user_id = $("#userId").data("id");
+				debugger
+				$.ajax({
+					url: "record/doInsertRecord",
+					type: "post",
+					dataType: "json",
+					data: {
+						seller_id:seller_id,
+						item_id: item_id,
+						id:user_id
+					},
+					success: function (result) {
+						alert("购买成功");
+						doClearEl("#box");
+						pageCurrent = 1;
+						doSetItems(itemList);
+						doShowPageInfo();
+					},
+					error:function(result){
+						alert("111");
+					}
+				})
+				
+			}
 
-        $("#nextPage").click(function () {
-			if (pageCurrent == pageCount) {
-				alert("已经是最后一页了");
-			} else {
-				pageCurrent++;
-				doGetItems();
-			}
-		})
-
-        function doGetItems() {
-			if (pageCurrent == null) {
-				pageCurrent = 1;
-			}
-		 }
-		
-})
 </script>
+
+
 
 </html>		
