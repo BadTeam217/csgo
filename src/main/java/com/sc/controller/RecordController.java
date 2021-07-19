@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sc.common.vo.JsonResult;
+import com.sc.common.vo.PageObject;
 import com.sc.pojo.Market;
 import com.sc.pojo.User;
 import com.sc.service.RecordService;
+import com.sc.vo.RecordVo;
 
 @RestController
 @RequestMapping("/record/")
@@ -25,8 +27,8 @@ public class RecordController {
 	 * @return
 	 */
 	@RequestMapping("doInsertRecord")
-	public JsonResult doInsertRecord(Market market, User user) {
-		recordService.insertRecord(market, user);
+	public JsonResult doInsertRecord(Integer sellerUser_id, Integer buyerUser_id, Integer item_id) {
+		recordService.insertRecord(sellerUser_id, buyerUser_id, item_id);
 		return new JsonResult("购买成功");
 	}
 
