@@ -723,7 +723,6 @@
 				dataType: "json",
 				data: { id: user_id },
 				success: function (result) {
-					console.log(result);
 					user_name = result.data.name;
 					$("#userId").html(user_name);
 				}
