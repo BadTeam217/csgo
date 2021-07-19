@@ -9,4 +9,6 @@ public interface UserService {
     public User findUserByAccount(String account);
 
     public int update(User user);
+    
+    public User findUserById(int id);
 }

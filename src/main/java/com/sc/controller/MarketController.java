@@ -70,7 +70,7 @@ public class MarketController {
 	 * @param price   修改后的价格
 	 * @return
 	 */
-	@RequestMapping("/doUpdatePriceByKey")
+	@RequestMapping("doUpdatePriceByKey")
 	public JsonResult doUpdatePriceByKey(Integer user_id, Integer item_id, Double price) {
 		marketService.updatePriceByKey(user_id, item_id, price);
 		return new JsonResult("修改成功！");

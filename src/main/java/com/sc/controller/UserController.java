@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sc.common.vo.JsonResult;
 import com.sc.pojo.User;
 import com.sc.service.UserService;
 import com.sc.util.ResponseMsgUtil;
@@ -50,5 +51,11 @@ public class UserController {
         if (result != -1){
             return ResponseMsgUtil.getResult(result);
         }else return ResponseMsgUtil.getResult("noVars");
+    }
+    
+    @GetMapping("/info")
+    @ResponseBody
+    public JsonResult findNameById(int id) {
+    	return new JsonResult(userService.findUserById(id));
     }
 }

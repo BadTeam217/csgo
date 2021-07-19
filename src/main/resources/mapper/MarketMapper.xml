@@ -92,7 +92,7 @@
 	</select>
 
 	<update id="updatePriceByKey">
-		update market set price=#{price}
+		update market set price=#{price},datetime=now()
 		where
 		seller_id=#{seller_id} and item_id=#{item_id}
 	</update>
