@@ -85,11 +85,17 @@
 	</select>
 
 	<select id="getRowCount" resultType="long">
-		select count(*) from record
+		select count(*) from market
 		<where>
 			<if test="seller_id!=null and seller_id!=''">
 				seller_id=#{seller_id}
 			</if>
 		</where>
 	</select>
+
+	<update id="updatePriceByKey">
+		update market set price=#{price}
+		where
+		seller_id=#{seller_id} and item_id=#{item_id}
+	</update>
 </mapper>

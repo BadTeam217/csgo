@@ -2,7 +2,6 @@ package com.sc.dao;
 
 import java.util.List;
 
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -26,13 +25,12 @@ public interface MarketDao {
 
 	List<MarketVo> findPageObjectByPrice(long startIndex, long pageSize);
 
-	@Select("select count(*) from market")
-	long getRowCount();
-
 	public Market findMarketBYItem(Integer item_id);
 
 	long getRowCount(Integer seller_id);
 
 	List<MarketVo> findPageObjectOnShelf(Integer seller_id, long startIndex, int pageSize);
+
+	int updatePriceByKey(Integer seller_id, Integer item_id, Double price);
 
 }
