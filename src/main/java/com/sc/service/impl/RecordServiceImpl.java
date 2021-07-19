@@ -35,24 +35,24 @@ public class RecordServiceImpl implements RecordService {
 	MarketDao marketDao;
 
 	@Override
-	public int insertRecord(Market market, User user) {
+	public int insertRecord(Integer sellerUser_id, Integer buyerUser_id, Integer item_id) {
 		// 校验
-		User seller = sellerDao.findUserBySellerId(market.getSeller_id());
-		if (seller.getId() == user.getId())
+		if (sellerUser_id == buyerUser_id)
 			throw new IllegalAccessError("买家与卖家为同一人");
 		// 市场中下架该商品
+		Market market = marketDao.findMarketBYItem(item_id);
 		marketDao.delete(market);
 		// 删除卖家仓库中该道具
-		stockDao.delete(market.getItem_id());
+		stockDao.delete(item_id);
 		// 添加买家仓库中该道具
-		Stock stock = new Stock(user.getId(), market.getItem_id());
+		Stock stock = new Stock(buyerUser_id, item_id);
 		stockDao.insert(stock);
 		// 添加购买记录
-		Buyer buyer = buyerDao.findBuyerByUserId(user.getId());
-		Record record = new Record(buyer.getId(), market.getSeller_id(), market.getItem_id(), market.getPrice(),
-				new Date());
-		int row = recordDao.insertRecord(record);
-		return row;
+		Seller seller = sellerDao.findSellerByUserId(sellerUser_id);
+		Buyer buyer = buyerDao.findBuyerByUserId(buyerUser_id);
+		Record record = new Record(buyer.getId(), seller.getId(), item_id, market.getPrice(), new Date());
+		int rows = recordDao.insertRecord(record);
+		return rows;
 	}
 
 	@Override
