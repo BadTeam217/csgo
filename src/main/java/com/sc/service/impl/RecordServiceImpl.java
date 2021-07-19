@@ -50,4 +50,6 @@ public class RecordServiceImpl implements RecordService {
 		int row = recordDao.insertRecord(record);
 		return row;
 	}
+	
+	
 }

@@ -30,7 +30,7 @@ public class MarketServiceImpl implements MarketService {
 		if (pageCurrent == null || pageCurrent < 1)
 			throw new IllegalArgumentException("当前页码值无效");
 		// 查询当前页记录
-		long rowCount = marketDao.getRowCount();
+		long rowCount = marketDao.getRowCount(null);
 		int pageSize = 5;
 		long sum = pageSize;
 		long startIndex = (pageCurrent - 1) * pageSize;
