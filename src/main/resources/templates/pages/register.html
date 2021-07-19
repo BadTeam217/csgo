@@ -1,39 +1,91 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Please register</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
+        crossorigin="anonymous" />
 
     <script src="/js/jquery-2.1.4.min.js"></script>
 
     <script src="/js/register.js"></script>
 
 </head>
+
 <body>
-<div class="container">
-    <form class="form-signin" id="regForm">
-        <h2 class="form-signin-heading">Please register</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="name" class="form-control" placeholder="Username" required autofocus>
-        </p>
+    <div class="container">
+        <form class="form-signin" id="regForm">
+            <h2 class="form-signin-heading">Please register</h2>
+            <p>
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" id="username" name="name" class="form-control" placeholder="Username" required
+                    autofocus>
+            </p>
 
-        <p>
-            <label for="account" class="sr-only">Account</label>
-            <input type="text" id="account" name="account" class="form-control" placeholder="Account" required>
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        </p>
+            <p>
+                <label for="account" class="sr-only">Account</label>
+                <input type="text" id="account" name="account" class="form-control" placeholder="Account" required>
+            </p>
+            <p>
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                    required>
+            </p>
 
-        <input type="button" class="btn btn-lg btn-primary btn-block" value="Register" id="regBtn" onclick="register()">
-    </form>
-</div>
+            <input type="button" class="btn btn-lg btn-primary btn-block" value="Register" id="regBtn"
+                onclick="register()">
+        </form>
+    </div>
 
-</body></html>
+</body>
+
+<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+
+<body>
+    <div class="container">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">请注册</h2>
+            <p>
+                <label id="username" class="sr-only">用户名</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required=""
+                    autofocus="">
+            </p>
+            <p>
+                <label for="password" class="sr-only">密码</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="密码" required="">
+            </p>
+            <button class="btn btn-lg btn-primary btn-block" id="register">注册</button>
+        </form>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $("#register").click(function () {
+        let username = $("#username").val();
+        let password = $("#password").val();
+        $.ajax({
+            url: "/user/register",
+            type: "post",
+            dataType: "json",
+            data: { account: username, password: password },
+            contentType: "application/json;charset=UTF-pe8",
+            success: function (data) {
+                console.log(date);
+                alert("注册成功");
+                window.location.href = 'Market.html';
+            },
+            error: function () {
+                alert("注册失败");
+            }
+        })
+    })	
+</script>
+
+</html>

@@ -10,8 +10,10 @@ public class BuyerDaoTest {
 	@Autowired
 	BuyerDao buyerDao;
 
+
 	@Test
 	void insert() {
 		System.out.println(buyerDao.insert(new Buyer(1, 1)));
 	}
+
 }

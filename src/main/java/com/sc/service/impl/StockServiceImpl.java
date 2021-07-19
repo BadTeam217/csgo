@@ -47,8 +47,6 @@ public class StockServiceImpl implements StockService {
 			if (sum == 0)
 				break;
 		}
-		if (rowCount == 0)
-			throw new IllegalArgumentException("无记录");
 		// 封装查询结果
 		return new PageObject<>(records, rowCount, pageSize, pageCurrent);
 	}

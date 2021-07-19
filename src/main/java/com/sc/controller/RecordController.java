@@ -9,6 +9,7 @@ import com.sc.pojo.Market;
 import com.sc.pojo.User;
 import com.sc.service.RecordService;
 
+
 @RestController
 @RequestMapping("/record/")
 public class RecordController {

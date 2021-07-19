@@ -23,4 +23,9 @@ public class PageController {
 	public String register(User user){
 		return "register";
 	}
+	
+	@RequestMapping("marketinfo")
+	public String market() {
+		return "Market";
+	}
 }
