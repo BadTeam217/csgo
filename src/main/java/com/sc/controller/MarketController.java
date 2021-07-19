@@ -60,6 +60,19 @@ public class MarketController {
 	public JsonResult doFindPageObjectsOnShelf(Integer user_id, Long pageCurrent) {
 		PageObject<MarketVo> result = marketService.findPageObjectsOnShelf(user_id, pageCurrent);
 		return new JsonResult(result);
+	}
 
+	/**
+	 * 修改价格
+	 * 
+	 * @param user_id 商品所属用户的id
+	 * @param item_id 待修改商品的id
+	 * @param price   修改后的价格
+	 * @return
+	 */
+	@RequestMapping("/doUpdatePriceByKey")
+	public JsonResult doUpdatePriceByKey(Integer user_id, Integer item_id, Double price) {
+		marketService.updatePriceByKey(user_id, item_id, price);
+		return new JsonResult("修改成功！");
 	}
 }
