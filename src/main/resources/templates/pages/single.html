@@ -81,7 +81,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  </div> 
 				  <div class="desc1 span_3_of_2">
 					<h1 id="type">手枪</h1><!--商品名-->
-				  	<h1 id="name">格洛克18型-大眼睛</h1><!--商品名-->
+				  	<h1 id="skin">格洛克18型-大眼睛</h1><!--商品名-->
 			    <div class="price_single"><!--价格-->
 				  <span id="price" class="actual">20.3</span><span>￥</span>
 				</div>
@@ -105,22 +105,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
           	    <div class="clearfix"></div>
           </div>
+          <div id="user_id" th:attr=:"data-id=${session.USER.id}"></div>
 <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
 
-<script type="text/javascript">
+<script type="text/javascript" src="js/getUrlParam.js">
  $(document).ready(function(){
+	     let seller_id = UrlParam.paramValues(seller_id);
+	     let buyer_id=$("#user_Id").id;
 		 $.ajax({
-			 url:"###",
+			 url:"/record/doFindPageObjects",
 			 type:"get",
 			 datatype:"json",
-			 data:{},
+			 data:{sellerUser_id:seller_id,user_id:buyer_id},
 		     contentType:"application/json;charset=UTF-pe8",
 		     success:function(data){
 		    	 console.log(data);
 				 $("#seller_id").html(data.seller_id);
+				 
 		    	 $("#tradingRecord").append(
-				 "<td>"+data.name+
+				 "<td>"+data.skin+
 				 "</td><td>"+data.buyer_id+
 				 "</td><td>"+data.price+
 				 "</td>"
@@ -130,36 +134,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  })
 </script>
 
-<script type="text/javascript">
+<script type="text/javascript" src="js/getUrlParam.js">
  $(document).ready(function(){
-	     let type = ;
-		 let skin = ;
-		 let quality = ;
-		 $.ajax({
-			 url:"/market/doFindPageObjects",
-			 type:"get",
-			 datatype:"json",
-			 data:{type:###,skin:###,quality:###},
-		     contentType:"application/json;charset=UTF-pe8",
-		     success:function(data){
-		    	 console.log(data);
-				 $("#picture1").attr("src","########");
-				 $("#picture2").attr("src","########");
-		    	 $("#type").html(data.type);
-		    	 $("#name").html(data.name);
-				 $("#price").html(date.price);
+	     let id = UrlParam.paramValues(id);
+	     let type = UrlParam.paramValues(type);
+		 let skin = UrlParam.paramValues(skin);
+		 let quality = UrlParam.paramValues(quality);
+			 $("#picture1").attr("src","images/"+id+".jpg");
+			 $("#picture2").attr("src","images/"+id+".jpg");
+			 $("#type").html(type);
+			 $("#skin").html(name);
+			 $("#price").html(price);
 		     }
-		 })
- })
+		 )
 </script>
 
 <script type="text/javascript"> //购买商品
  $(document).ready(function(){
    $("#buy").click(function(){
-		 let buyer_id=;
-		 let seller_id=$("#seller_id").html();
-		 let item_id=;
-		 let price=$("#price").html();
+		 let buyer_id=$("#user_Id").id;
+		 let seller_id = UrlParam.paramValues(seller_id);
+		 let item_id=UrlParam.paramValues(id);
+		 let price=UrlParam.paramValues(price)
 		 let datetime=new date();
 		 $.ajax({
 			 url:"/record/doInsertRecord",

@@ -25,8 +25,9 @@ public class StockServiceImpl implements StockService {
 		// 查询当前页记录
 		long rowCount = stockDao.getRowCount(user_id);
 		int pageSize = 5;
+		long sum = pageSize;
 		long startIndex = (pageCurrent - 1) * pageSize;
-		List<UserItemVo> results = stockDao.findPageObject(user_id, startIndex, pageSize);
+		List<UserItemVo> results = stockDao.findPageObject(user_id, startIndex, rowCount);
 		List<UserItemVo> records = new ArrayList<>();
 		for (UserItemVo r : results) {
 			if (type != null && r.getItem().getType().indexOf(type) == -1) {
@@ -42,6 +43,9 @@ public class StockServiceImpl implements StockService {
 				continue;
 			}
 			records.add(r);
+			sum--;
+			if (sum == 0)
+				break;
 		}
 		if (rowCount == 0)
 			throw new IllegalArgumentException("无记录");

@@ -92,8 +92,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   <div class="content_top">
   	<div class="container">
 	   <div class="col-md-9 content_right">
-	    <div class="top_grid2">
-	     <div id="box" class="col-md-4 top_grid1-box1">
+	    <div id="box" class="top_grid2">
+	     <div class="col-md-4 top_grid1-box1">
 		   <a href="single1.html"><!--商品1-->
 	     	<div class="grid_1">
 	     	  <div class="b-link-stroke b-animate-go  thickbox">
@@ -115,38 +115,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	  </div>  	    
 	</div>
 </div>
+
+<div style="text-align: center;">
+	<output id="rowCount"></output>件道具, 每页最多显示
+	<output href="javascript:">5</output> 件
+	<button id="lastPage">上一页</button>
+	<button id="nextPage">下一页</button>
+	共<output id="pageCount"></output>页
+</div>
+
 <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
 
 <script type="text/javascript">
  $(document).ready(function(){
+	 
 		 $.ajax({
 			 url:"/market/doFindPageObjects",
 			 type:"get",
 			 datatype:"json",
-			 data:{type:null,skin:null,quality:null},
+			 data:{pageCurrent:null,type:null,skin:null,quality:null},
 		     contentType:"application/json;charset=UTF-pe8",
-		     success:function(data){
-		    	 console.log(data);
-				 $("#box").empty();
+		     success:function(result){
+		    	 console.log(result);
+		    	 itemList =[];	
+				 res = result;
+				 pageCount = res.data.pageCount;
+				 rowCount = res.data.rowCount;
+				 itemList = $.extend(true,[],result.data.records);
+		    	 $("#box").empty();
 				 data.forEach(element => {
-				 			 $("#box").append(
-				                 "<a href='single.html'>
-	     	                        <div class='grid_1'>
-	     	                          <div class='b-link-stroke b-animate-go  thickbox'>
-		                                <img src='images/p1.jpg' class='img-responsive' alt=''/> </div>
-	     	                          <div class='grid_2'>
-	     	  	                          <p id='type'>"+
-										  element.type+
-										  "</p><p id='skin'>"+
-										  element.skin+
-										  "</p><p id='qulity'>"+
-										  element.quality+
-										  "<ul class='grid_2-bottom'><li class='grid_2-left'><p>"+
-										  element.price+
-										  "</p></li><p>￥</p><li class='grid_2-right'><div class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a>"				 
-		            }
-		 })
+				    $("#box").append(
+					"<div class='col-md-4 top_grid1-box1'> <a href = 'single.html?item_id="+element.item.id+"&type="+element.item.type+"&skin="+element.item.skin+"&quality="+element.item.quality+"&price="+element.price+"&seller_id="+element.user.id+"'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='"+images/"+element.item.id+".jpg+"' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + element.item.type +"</p><p id='skin'>"+ element.item.skin+"</p><p id='qulity'>"+ element.item.quality+"<ul class='grid_2-bottom'><li class='grid_2-left'><p>"+ element.price+"</p></li><p>￥</p><li class='grid_2-right'><div id='buyBut' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div>");
+				 })
+			 }
+     })
  })
 </script>
 
@@ -156,35 +159,65 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			let searchType=$("#serchType").val();
 			let searchSkin=$("#serchSkin").val();
 			let searchQuality=$("#serchQuality").val();
+			if(pageCurrent==null){pageCurrent=1;}
 			$.ajax({
 				url:"/market/doFindPageObjects",
 				type:"get",
 				datatype:"json",
-				data:{type:serchType,skin:serchSkin,quality:serchQuality},
+				data:{pageCurrent:pageCurrent,type:serchType,skin:serchSkin,quality:serchQuality},
 				contentType:"application/json;charset=UTF-pe8",
-				success:function(data){
+				success:function(resut){
+				console.log(result);
+				itemList =[];	
+				res = result;
+				pageCount = res.data.pageCount;
+				rowCount = res.data.rowCount;
+				itemList = $.extend(true,[],result.data.records);
+				$("#box").empty();
+				doshowPageInfo();
 				data.forEach(element => {
-							 $("#box").append(
-				                "<a href='single.html'>
-				                   <div class='grid_1'>
-				                     <div class='b-link-stroke b-animate-go  thickbox'>
-				                       <img src='images/p1.jpg' class='img-responsive' alt=''/></div>
-				                     <div class='grid_2'>
-				                         <p id='type'>"+
-											element.type+
-											"</p><p id='skin'>"+
-											element.skin+
-											"</p><p id='qulity'>"+
-											element.quality+
-											"<ul class='grid_2-bottom'><li class='grid_2-left'><p>"+
-											element.price+
-											"</p></li><p>￥</p><li class='grid_2-right'><div class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a>"				 
-				   }
-				}
-			})
+					$("#box").append(
+					"<div class='col-md-4 top_grid1-box1'> <a href = 'single.html?item_id="+element.item.id+"&type="+element.item.type+"&skin="+element.item.skin+"&quality="+element.item.quality+"&price="+element.price+"&seller_id="+element.user.id+"'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='"+images/"+element.item.id+".jpg+"' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + element.item.type +"</p><p id='skin'>"+ element.item.skin+"</p><p id='qulity'>"+ element.item.quality+"<ul class='grid_2-bottom'><li class='grid_2-left'><p>"+ element.price+"</p></li><p>￥</p><li class='grid_2-right'><div id='buyBut' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div>");
+				})
+			}
 		})
 	})
+	
+	function doShowPageInfo() {
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+			$("#pageCurrent").val(pageCurrent);
+			$("#rowCount").val(rowCount);
+			$("#pageCount").val(pageCount);
+			$("#pageSize").val(pageSize);
+		}
+		
+		$("#lastPage").click(function () {
+			if (pageCurrent == 1) {
+				alert("已经是第一页了");
+			} else {
+				pageCurrent--;
+				doGetItems();
+			}
+		})
+
+        $("#nextPage").click(function () {
+			if (pageCurrent == pageCount) {
+				alert("已经是最后一页了");
+			} else {
+				pageCurrent++;
+				doGetItems();
+			}
+		})
+
+        function doGetItems() {
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+		 }
+		
+})
 </script>
 
 </html>		
-

@@ -7,33 +7,4 @@
 		insert into record values
 		(#{buyer_id},#{seller_id},#{item_id},#{price},now())
 	</insert>
-
-
-	<resultMap id="RecordVo" type="com.sc.vo.RecordVo">
-		<association property="user" column="buyer_id"
-			select="com.sc.dao.SellerDao.findUserByBuyerId"></association>
-		<association property="user" column="seller_id"
-			select="com.sc.dao.SellerDao.findUserBySeller"></association>
-		<association property="item" column="item_id"
-			select="com.sc.dao.ItemDao.findObjectById"></association>
-	</resultMap>
-
-	<select id="findPageObject" resultMap="RecordVo">
-		select
-		buyer_id,seller_id,item_id,price,datetime
-		from record
-		where
-		buyer_id=#{buyer_id} or seller_id=#{seller_id}
-		order by
-		datetime
-		desc
-		limit
-		#{startIndex},#{pageSize}
-	</select>
-
-	<select id="getRowCount" resultType="long">
-		select count(*) from record
-		where
-		buyer_id=#{buyer_id} or seller_id=#{seller_id}
-	</select>
 </mapper>

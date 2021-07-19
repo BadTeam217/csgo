@@ -12,7 +12,7 @@
 
 	<resultMap id="MarketVo" type="com.sc.vo.MarketVo">
 		<association property="user" column="seller_id"
-			select="com.sc.dao.SellerDao.findUserBySellerId"></association>
+			select="com.sc.dao.SellerDao.findUserBySeller"></association>
 		<association property="item" column="item_id"
 			select="com.sc.dao.ItemDao.findObjectById"></association>
 	</resultMap>
@@ -49,7 +49,6 @@
 		#{startIndex},#{pageSize}
 	</select>
 
-
 	<delete id="delete" parameterType="market">
 		delete from market
 		where
@@ -77,19 +76,10 @@
 		)
 	</select>
 
-
 	<select id="findMarketBYItem" resultType="market">
 		select *
 		from market
 		where item_id=#{item_id}
 	</select>
 
-	<select id="getRowCount" resultType="long">
-		select count(*) from record
-		<where>
-			<if test="seller_id!=null and seller_id!=''">
-				seller_id=#{seller_id}
-			</if>
-		</where>
-	</select>
 </mapper>

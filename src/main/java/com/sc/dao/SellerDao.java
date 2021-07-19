@@ -11,6 +11,8 @@ public interface SellerDao {
 
 	public int insert(Seller seller);
 
+	public User findUserBySeller(Seller seller);
+
 	User findUserBySellerId(Integer id);
 
 	public Seller findSellerBySellerId(Integer seller_id);
@@ -18,5 +20,5 @@ public interface SellerDao {
 	@Select("select * from seller where user_id=#{user_id}")
 	Seller findSellerByUserId(Integer user_id);
 
-	User findUserBySeller(Seller seller);
+	public Integer findSellerIdByIuserId(Integer user_id);
 }

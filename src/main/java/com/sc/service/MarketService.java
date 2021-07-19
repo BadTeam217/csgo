@@ -9,7 +9,7 @@ import com.sc.vo.MarketVo;
 import java.util.List;
 
 public interface MarketService {
-	/** 查询所有商品 */
+
 	PageObject<MarketVo> findPageObject(Long pageCurrent, String type, String skin, String quality);
 
 	PageObject<MarketVo> findPageObjectByPrice(Long pageCurrent);
