@@ -410,6 +410,10 @@
 				},
 				error: function (result) {
 					alert("找不到该物品！！！");
+					doGetItems();
+					$("#type").val("");
+					$("#skin").val("");
+					$("#quality").val("");
 				}
 			})
 		}
