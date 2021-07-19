@@ -71,10 +71,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		  </select>
 		  皮肤名称：<select id="searchSkin">
 			          <option value="null" selected>请选择</option>
-		  			  <option></option>
-		  			  <option></option>
-		  			  <option></option>
-		  			  <option></option>
+		  			  <option>次时代</option>
+		  			  <option>二西莫夫</option>
+		  			  <option>氮化处理</option>
+		  			  <option>沙漠</option>
+		  			  <option>森林</option>
 		  </select>
 		  皮肤品质：<select id="searchQuality">
 			          <option value="null" selected>请选择</option>
@@ -166,7 +167,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				datatype:"json",
 				data:{pageCurrent:pageCurrent,type:serchType,skin:serchSkin,quality:serchQuality},
 				contentType:"application/json;charset=UTF-pe8",
-				success:function(resut){
+				success:function(result){
 				console.log(result);
 				itemList =[];	
 				res = result;
