@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Fashionpress Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+	<script
+		type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<link href="css/bootstrap1.css" rel="stylesheet" type="text/css" />
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<!-- Custom Theme files -->
+	<link href="css/style1.css" rel="stylesheet" type="text/css" />
+	<!-- Custom Theme files -->
+	<!--webfont-->
+	<link href="http://fonts.useso.com/css?family=Lato:100,200,300,400,500,600,700,800,900" rel="stylesheet"
+		type="text/css">
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/responsiveslides.min.js"></script>
+	<script>
+		$(function () {
+			$("#slider").responsiveSlides({
+				auto: true,
+				nav: true,
+				speed: 500,
+				namespace: "callbacks",
+				pager: true,
+			});
+		});
+	</script>
+	<script type="text/javascript" src="js/hover_pack.js"></script>
+</head>
+
+<body>
+	<div class="header">
+		<!--头部-->
+		<div class="header_top">
+			<div class="container">
+				<div class="logo">
+					<a href="Market.html"><img src="images/logo.png" alt="" /></a>
+				</div>
+				<ul class="shopping_grid">
+					<a href="login.html">
+						<li>登录</li>
+					</a>
+					<a href="#">
+						<li>个人信息</li>
+					</a>
+					<div class="clearfix"> </div>
+				</ul>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<div class="slider">
+		<!--轮播图-->
+		<div class="callbacks_container">
+			<ul class="rslides" id="slider">
+				<li><img src="images/banner1.jpg" class="img-responsive" alt="" />
+				</li>
+				<li><img src="images/banner2.jpg" class="img-responsive" alt="" />
+				</li>
+				<li><img src="images/banner3.jpg" class="img-responsive" alt="" />
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="column_center">
+		<!--搜索框-->
+		<div class="search">
+			<div class="stay">Search Product</div>
+			<div class="stay_right">
+				枪械种类：<select id="searchType">
+					<option value="null" selected>请选择</option>
+					<option value="手枪">手枪</option>
+					<option value="步枪">步枪</option>
+					<option value="冲锋枪">冲锋枪</option>
+					<option value="霰弹枪">霰弹枪</option>
+					<option value="机枪">机枪</option>
+				</select>
+				皮肤名称：<select id="searchSkin">
+					<option value="null" selected>请选择</option>
+					<option>次时代</option>
+					<option>二西莫夫</option>
+					<option>氮化处理</option>
+					<option>沙漠</option>
+					<option>森林</option>
+				</select>
+				皮肤品质：<select id="searchQuality">
+					<option value="null" selected>请选择</option>
+					<option value="普通">普通</option>
+					<option value="稀有">稀有</option>
+					<option value="传说">传说</option>
+				</select>
+				<input type="submit" value="">
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+		<div id="searchBut" class="clearfix"> </div>
+	</div>
+	<div class="main">
+		<!--商品列表页面-->
+		<div class="content_top">
+			<div class="container">
+				<div class="col-md-9 content_right">
+					<div id="box" class="top_grid2">
+						<div class="col-md-4 top_grid1-box1">
+							<a href="single1.html">
+								<!--商品1-->
+								<div class="grid_1">
+									<div class="b-link-stroke b-animate-go  thickbox">
+										<img src="images/p1.jpg" class="img-responsive" alt="" /> </div>
+									<div class="grid_2">
+										<p id="type">手枪</p>
+										<p id="skin">格洛克18型-大眼睛</p>
+										<p id="qulity">普通</p>
+										<p id="price">20.3</p>
+										<ul class="grid_2-bottom">
+											<li class="grid_2-right">
+												<div class="btn btn-primary btn-normal btn-inline " target="_self"
+													title="Get It">购买</div>
+											</li>
+											<div class="clearfix"> </div>
+										</ul>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div style="text-align: center;">
+			<output id="rowCount"></output>件道具, 每页最多显示
+			<output href="javascript:">5</output> 件
+			<button id="lastPage">上一页</button>
+			<button id="nextPage">下一页</button>
+			共<output id="pageCount"></output>页
+		</div>
+
+		<div style="display:none">
+			<script src="http://v7.cnzz.com/stat.php?id=155540&web_id=155540" language="JavaScript"
+				charset="gb2312"></script>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$.ajax({
+			url: "/market/doFindPageObjects",
+			type: "get",
+			datatype: "json",
+			data: { pageCurrent: null, type: null, skin: null, quality: null },
+			contentType: "application/json;charset=UTF-pe8",
+			success: function (result) {
+				console.log(result);
+				itemList = [];
+				res = result;
+				pageCount = res.data.pageCount;
+				rowCount = res.data.rowCount;
+				itemList = $.extend(true, [], result.data.records);
+				$("#box").empty();
+				data.forEach(element => {
+					$("#box").append(
+						"<div class='col-md-4 top_grid1-box1'> <a href = 'single.html?item_id=" + element.item.id + "&type=" + element.item.type + "&skin=" + element.item.skin + "&quality=" + element.item.quality + "&price=" + element.price + "&seller_id=" + element.user.id + "'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='" + images / "+element.item.id+".jpg + "' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + element.item.type + "</p><p id='skin'>" + element.item.skin + "</p><p id='qulity'>" + element.item.quality + "<ul class='grid_2-bottom'><li class='grid_2-left'><p>" + element.price + "</p></li><p>￥</p><li class='grid_2-right'><div id='buyBut' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div>");
+				})
+			}
+		})
+	})
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#searchBut").click(function () {
+			let searchType = $("#serchType").val();
+			let searchSkin = $("#serchSkin").val();
+			let searchQuality = $("#serchQuality").val();
+			if (pageCurrent == null) { pageCurrent = 1; }
+			$.ajax({
+				url: "/market/doFindPageObjects",
+				type: "get",
+				datatype: "json",
+				data: { pageCurrent: pageCurrent, type: serchType, skin: serchSkin, quality: serchQuality },
+				contentType: "application/json;charset=UTF-pe8",
+				success: function (result) {
+					console.log(result);
+					itemList = [];
+					res = result;
+					pageCount = res.data.pageCount;
+					rowCount = res.data.rowCount;
+					itemList = $.extend(true, [], result.data.records);
+					$("#box").empty();
+					doshowPageInfo();
+					data.forEach(element => {
+						$("#box").append(
+							"<div class='col-md-4 top_grid1-box1'> <a href = 'single.html?item_id=" + element.item.id + "&type=" + element.item.type + "&skin=" + element.item.skin + "&quality=" + element.item.quality + "&price=" + element.price + "&seller_id=" + element.user.id + "'> <div class='grid_1'><div class='b-link-stroke b-animate-go  thickbox'><img src='" + images / "+element.item.id+".jpg + "' class='img-responsive' alt=''/></div><div class='grid_2'><p id='type'>" + element.item.type + "</p><p id='skin'>" + element.item.skin + "</p><p id='qulity'>" + element.item.quality + "<ul class='grid_2-bottom'><li class='grid_2-left'><p>" + element.price + "</p></li><p>￥</p><li class='grid_2-right'><div id='buyBut' class='btn btn-primary btn-normal btn-inline ' target='_self' title='Get It'>购买</div></li><div class='clearfix'> </div></ul></div></div></a></div>");
+					})
+				}
+			})
+		})
+
+		function doShowPageInfo() {
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+			$("#pageCurrent").val(pageCurrent);
+			$("#rowCount").val(rowCount);
+			$("#pageCount").val(pageCount);
+			$("#pageSize").val(pageSize);
+		}
+
+		$("#lastPage").click(function () {
+			if (pageCurrent == 1) {
+				alert("已经是第一页了");
+			} else {
+				pageCurrent--;
+				doGetItems();
+			}
+		})
+
+		$("#nextPage").click(function () {
+			if (pageCurrent == pageCount) {
+				alert("已经是最后一页了");
+			} else {
+				pageCurrent++;
+				doGetItems();
+			}
+		})
+
+		function doGetItems() {
+			if (pageCurrent == null) {
+				pageCurrent = 1;
+			}
+		}
+
+	})
+</script>
+
+</html>
