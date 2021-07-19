@@ -12,9 +12,9 @@ import com.sc.dao.SellerDao;
 import com.sc.dao.StockDao;
 import com.sc.pojo.Buyer;
 import com.sc.pojo.Market;
+import com.sc.pojo.Record;
 import com.sc.pojo.Stock;
 import com.sc.pojo.User;
-import com.sc.pojo.Record;
 import com.sc.service.RecordService;
 
 @Service
